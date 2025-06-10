@@ -19,3 +19,11 @@ ggplot(data, aes(x = Coverage, y = ValidationRate)) +
         axis.title = element_text(size = 18),
         axis.text = element_text(size = 14),
         plot.title = element_text(size = 20, face = "bold"))
+
+#Fig2B
+
+#Fig2C
+
+#Fig2D
+
+
