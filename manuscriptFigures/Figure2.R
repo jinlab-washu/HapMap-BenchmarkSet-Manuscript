@@ -4,7 +4,7 @@ library(tidyr)
 library(tidyverse)
 library(reshape2)
 
-#Fig2A
+########################################## Fig2A ##########################################
 # Data
 coverage <- c(500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500)
 validation_rate <- c(0.9555, 0.9711, 0.9778, 0.9799, 0.9787, 0.9813, 0.9817, 0.9819,0.9819)
@@ -24,7 +24,7 @@ ggplot(data, aes(x = Coverage, y = ValidationRate)) +
         axis.text = element_text(size = 14),
         plot.title = element_text(size = 20, face = "bold"))
 
-#Fig2B
+########################################## Fig2B ##########################################
 
 data <- data.frame(
   expectedVAFrange = rep(c("VAF>=10", "5<=VAF<10", "2<=VAF<5", "1<=VAF<2", "VAF<1"), 2),
@@ -99,7 +99,7 @@ vaf_plot <- ggplot(data, aes(x = x_label, y = recall_rate,
     panel.background = element_rect(fill = "white", color = NA)
   )
 
-#Fig2C
+########################################## Fig2C ##########################################
 
 data <- data.frame(
   Variant_Type = c("SNVs (N=6,037,703)", "Indels (N=1,832,989)", "SVs (N=51,006)"),
@@ -165,6 +165,6 @@ validation_plot <- ggplot(melted_data, aes(x = Variant_Type, y = Value)) +
     panel.background = element_rect(fill = "white", color = NA)
   )
 
-#Fig2D
+########################################## Fig2D ##########################################
 
 
