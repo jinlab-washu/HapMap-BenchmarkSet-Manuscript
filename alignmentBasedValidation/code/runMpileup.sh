@@ -24,6 +24,6 @@ sed "s|BAM|${1}|g" $file
 sed "s|BAM|${1}|g" $file > $outdir/readgroup.txt
 # run mpileup by chromosome
 for i in {1..24}; do
-  bash /storage1/fs1/jin810/Active/testing/Ruttenberg/Code/FinalSMAHTCode/runMpileup/runMpileupEX.sh $1 $2 $3 $i $5
+  bash /storage1/fs1/jin810/Active/testing/Ruttenberg/Code/FinalSMAHTCode/runMpileup/runMpileupEX.sh $1 $2 $3 $4 $i $5
 done
 
