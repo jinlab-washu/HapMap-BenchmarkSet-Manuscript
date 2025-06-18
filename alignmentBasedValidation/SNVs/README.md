@@ -65,9 +65,9 @@ this will produce the file ```$output_directory\$run_name\${run_name}_sorted.vcf
 to run ```bcftools isec``` to validate the truthset run the following steps
 
 1. make sure you are in the correct directory
-   ```bash
-  cd $output_directory\$run_name
-  ```
+```bash
+cd $output_directory\$run_name
+```
 2. run a multiallelic split on the output vcf. This makes sure when there are multiple variants in the same position they are both matched
 ```bash
 bcftools norm -m - ${run_name}_sorted.vcf -Ov -o ${run_name}_sorted.split.vcf
