@@ -1,5 +1,5 @@
 #################################################################
-# take a dirtory of sam files and call all cigar code variants
+# take a directory of sam files and call all cigar code variants
 # in each sam file
 
 ## author: Andrew Ruttenberg
