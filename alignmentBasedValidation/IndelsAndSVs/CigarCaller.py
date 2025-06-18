@@ -36,23 +36,37 @@ class indelCounter:
         
 
 def makeFastaDict(fasta):
+    """
+    Input:
+        fasta: a reference fasta.
+        
+    Output:
+        FastaDict: A dictoranry where each key is the contig and the entry is the sequences of the contig
+    """
     with open(fasta, 'r') as fa:
         lines = [l for l in fa]
     firstLine=lines.pop(0)
     chrom=firstLine.split()[0][1:]
     sequence=""
-    FastaDic = {}
+    FastaDict = {}
     for line in lines:
         if line.startswith(">"):
-            FastaDic[chrom]=sequence
+            FastaDict[chrom]=sequence
             chrom=line.split()[0][1:]
             sequence=""
         else:
             sequence=sequence+line.replace('\n', '')
-    FastaDic[chrom]=sequence
-    return(FastaDic)
+    FastaDict[chrom]=sequence
+    return(FastaDict)
 
 def cigarToList(cigarCode):
+    """
+    Input:
+        fasta: a cigar code.
+        
+    Output:
+        out: the list of all the insertion or deletions in the cigar code, along with their position
+    """
     out=[]
     workingNumber=""
     for i in range(len(cigarCode)):
@@ -67,6 +81,11 @@ def cigarToList(cigarCode):
     return(out)
 
 def makeVCF(indels, VCFPath):
+    """
+    Input:
+        indels: a list of all the mutations to write to a vcf
+        VCFPath: Path to the output vcf
+    """
     f=open(VCFPath, "w")
     with open("/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/Indel/CigarOutput/References/header.txt", "r") as header:
         for line in header:
@@ -82,6 +101,17 @@ def makeVCF(indels, VCFPath):
     f.close()
 
 def detectIndels(samFile, ref, currentIndelDict, LRS, indels):
+    """
+    Input:
+        samFile: a Sam File to look for mutation in
+        ref: the reference fasta the sam file is aligned to
+        currentIndelDict: A dictonary of all mutations that have been found thus far
+        LRS: a boolean for if the sam file is long reaf sequencing or short read sequnecing
+        indels: a boolean for is indels should be searched for or strucural variants
+        
+    Output:
+        currentIndelDict: An updated dictonary of all mutations that have been found thus far
+    """
     indelDict=dict()
 
     with open(samFile, "r") as sam_file:
