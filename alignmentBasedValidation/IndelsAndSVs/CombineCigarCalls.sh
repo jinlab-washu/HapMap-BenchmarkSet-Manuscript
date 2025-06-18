@@ -1,3 +1,10 @@
+#################################################################
+# combine the cigar calls from each chromosome into a single vcf
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 numberArguments=$#
 
 if [ "$numberArguments" -ne 2 ]
