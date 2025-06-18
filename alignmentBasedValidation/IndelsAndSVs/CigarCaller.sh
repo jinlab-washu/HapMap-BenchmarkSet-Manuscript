@@ -1,3 +1,10 @@
+#################################################################
+# Set up calling cigar code variants for each chromosome
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 numberArguments=$#
 
 if [ "$numberArguments" -ne 6 ]
