@@ -3,7 +3,7 @@ numberArguments=$#
 if [ "$numberArguments" -ne 2 ]
 then
     echo "Incorrect number of arguments"
-    echo "Correct usage: bash runWGS.sh {mPileup Out Dir} {output file name}"
+    echo "Correct usage: bash runWGS.sh {CigarCaller Output Dir} {output file name}"
     exit 53
 fi
 
