@@ -59,7 +59,7 @@ do
 done < "$truth"
 
 echo "Running Pileup"
-/usr/bin/python3 /storage1/fs1/jin810/Active/testing/Ruttenberg/Code/FinalSMAHTCode/CigarCaller/CigarMaker.py -s $outsam -r $ref -l $LRS -o $outfile -i $indels
+/usr/bin/python3 /storage1/fs1/jin810/Active/testing/Ruttenberg/Code/FinalSMAHTCode/CigarCaller/CigarCaller.py -s $outsam -r $ref -l $LRS -o $outfile -i $indels
 noVCF="${outfile%.vcf}"
 sorted="${noVCF}_sorted.vcf"
 bcftools sort $outfile -o $sorted
