@@ -47,9 +47,9 @@ done
 echo "Step2"
 
 MissedVarsDir=$outdir/FalseNegitiveSet
-graph="/storage2/fs1/epigenome/Active/shared_smaht/SMaHT_MCGB_Graphs/new-v2.9.7/9188e8/9188e8.vcf.gz"
-ref="/storage2/fs1/epigenome/Active/shared_smaht/References/SMAHT_References/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa"
-dipDir="/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/Dipcall/GRCh38"
+graph="graph.vcf.gz"
+ref="GCA_000001405.15_GRCh38_no_alt_analysis_set.fa"
+dipDir=Dipcall/GRCh38"
 for haplo in HG002_mat HG002_pat HG00438_mat HG00438_pat HG02257_mat HG02257_pat HG02486_mat HG02486_pat HG02622_mat HG02622_pat; do
     echo $haplo
     mkdir "${outdir}/${haplo}"
