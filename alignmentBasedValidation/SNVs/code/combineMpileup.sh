@@ -1,3 +1,10 @@
+#################################################################
+# Set up Running mpileup
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 numberArguments=$#
 
 if [ "$numberArguments" -ne 1 ]
