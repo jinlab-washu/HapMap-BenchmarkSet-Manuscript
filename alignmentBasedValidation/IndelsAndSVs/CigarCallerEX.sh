@@ -3,7 +3,7 @@ numberArguments=$#
 if [ "$numberArguments" -ne 7 ] && [ "$numberArguments" -ne 8 ]
 then
     echo "Incorrect number of arguments"
-    echo "Correct usage: bash runWGS.sh {truthset VCF} {Bam File} {Reference File} {if LRS or Not} {indels or not} {wkdir} {outname} {chrom (optional)}"
+    echo "Correct usage: bash runWGS.sh {truthset VCF} {Bam File} {Reference File} {if LRS or Not} {indels or not} {wkdir} {outname} {chrom}"
     exit 53
 fi
 
@@ -29,20 +29,12 @@ fi
 
 echo "making sam files"
 
-if [ "$numberArguments" -eq 8 ]
-then 
-  echo "making truthset"
-  chrom=$8
-  echo $truth
-  bcftools view -r $chrom $truth -o "$wkdir/truthsets/$chrom.vcf" -O v
-  echo "truthset made"
-  truth="$wkdir/truthsets/$chrom.vcf"
-  outsam="$wkdir/samfiles/$chrom"
-  mkdir $outsam
-elif [ "$numberArguments" -eq 7 ]
-then
-  outsam="$wkdir/samfiles"
-fi
+chrom=$8
+bcftools view -r $chrom $truth -o "$wkdir/truthsets/$chrom.vcf" -O v
+truth="$wkdir/truthsets/$chrom.vcf"
+outsam="$wkdir/samfiles/$chrom"
+mkdir $outsam
+
 
 while IFS= read -r line
 do
