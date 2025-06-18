@@ -1,15 +1,23 @@
-#Docker: biocontainers/python3-pysam:v0.10.0ds-2-deb_cv1
+#################################################################
+# Reconstructs the local sequence at each variant missed in 
+# alignment validation and compares it to the seuqnece as provided
+# by dipcall, allowing for additional variants that are 
+# reperesented differently to be validated
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
 
 numberArguments=$#
 if [ "$numberArguments" -ne 2 ]
 then
     echo "Incorrect number of arguments"
     echo "${numberArguments} arguments given"
-    echo "Correct usage: bash phasing.sh {False neg set} {Ourdir}"
+    echo "Correct usage: bash phasing.sh {false_neg_set} {outdir}"
     exit 53
 fi
 
-#Step1, make list of FN variants divided by cell line
+#Step1, make list of false variants and divided them by hapolotype they are found in
 echo "Step1"
 
 outdir=$2
@@ -34,7 +42,8 @@ for haplo in HG002_mat HG002_pat HG00438_mat HG00438_pat HG02257_mat HG02257_pat
     tabix "$outdir/FalseNegitiveSet/${haplo}_missedVars.vcf.gz"
 done
 
-#Steo2, use dipcall to rescue variants
+#Step 2: using dipcall reconstuct the local region around each variants acourding to the graph and dipcall. If these sequences are the same that means the 
+# variant is present according to assembly based calling
 echo "Step2"
 
 MissedVarsDir=$outdir/FalseNegitiveSet
@@ -59,7 +68,7 @@ for haplo in HG002_mat HG002_pat HG00438_mat HG00438_pat HG02257_mat HG02257_pat
     done
 done
 
-#step3: combine vcell liones
+#step3: combine the list of rescued variants across all haplotypes
 echo "Step3"
 
 for haplo in HG002_mat HG002_pat HG00438_mat HG00438_pat HG02257_mat HG02257_pat HG02486_mat HG02486_pat HG02622_mat HG02622_pat; do
