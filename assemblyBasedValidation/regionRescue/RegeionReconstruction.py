@@ -82,6 +82,17 @@ def subsetDipVariants(DipVarList, Sample):
 
 
 def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, dist):
+    """
+    Input:
+        Negitve: a list of false negitive variants.
+        Graph: the list of variants according to the pangenome graph
+        Dip: the list of variants accorsing to dipcall
+        reference: the reference fasta for the false negitive variants
+        graphSample: the name of the sample in the graph vcf
+        dipSample: the name of the sample in the dipcall vcf
+        outpath: output directory
+        dist: minimum distance between variants in the graph/dipcall. Used to idetfy breakpoints for region reconstruction
+    """
     truthList=[]
     FalseList=[]
     region=[]
@@ -157,6 +168,14 @@ def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, d
     t.close()
 
 def find_overlaps_linear(list1, list2, dist):
+    """
+    Input:
+        list1: a list of genomic regions
+        list2: a second list of genomic regions
+        dist: minimum distance for an output region to be kept
+    Output:
+        overlaps: a list of regions in both list1 and list2
+    """
     overlaps = []
     i, j = 0, 0 
 
@@ -182,6 +201,17 @@ def find_overlaps_linear(list1, list2, dist):
 
 
 def makeAssembly(Variants, Reference, chrom, start, end):
+    """
+    Input:
+        Variants: a list of variants in a region
+        Sample: the sample the variants are from
+        chrom: the chromosome of that region
+        start: the start position of the region
+        end: the end position of the region
+        
+    Output:
+        seq: the recontsuctred sequence of the region
+    """
     pos=start
     seq=""
     for var in Variants:
@@ -193,6 +223,19 @@ def makeAssembly(Variants, Reference, chrom, start, end):
 
 
 def compareRegions(Reference, chromosome, start, end, GraphVCF, DipcallVCF, GraphSample, DipSample):
+    """
+    Input:
+        Reference: the reference file
+        chrom: the chromosome of a region
+        start: the start position of the region
+        end: the end position of the region
+        GraphVCF: the list of variants according to the pangenome graph
+        DipcallVCF: the list of variants accorsing to dipcall
+        GraphSample: the name of the sample in the graph vcf
+        DipSample: the name of the sample in the dipcall vcf
+    Output:
+        a boolean on if the sequnece of the region is the same in dipcall compared to the graph
+    """
     GraphVars=subsetGraphVariants(GraphVCF.fetch(chromosome, start, end), GraphSample)
     DipVars=subsetDipVariants(DipcallVCF.fetch(chromosome, start, end), DipSample)
     GraphRegion=makeAssembly(GraphVars, Reference, chromosome, start, end)
