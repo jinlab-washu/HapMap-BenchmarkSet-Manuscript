@@ -1,3 +1,11 @@
+#################################################################
+# Make a sam file for each region of interest and call all cigar 
+# code variants in each of the sam files
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 numberArguments=$#
 
 if [ "$numberArguments" -ne 7 ] && [ "$numberArguments" -ne 8 ]
