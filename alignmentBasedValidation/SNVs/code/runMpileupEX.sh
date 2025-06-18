@@ -1,3 +1,10 @@
+#################################################################
+# Running mpileup for an individual chromosome
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 numberArguments=$#
 
 if [ "$numberArguments" -ne 5 ] && [ "$numberArguments" -ne 6 ]
