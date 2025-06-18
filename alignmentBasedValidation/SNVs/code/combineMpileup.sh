@@ -1,5 +1,5 @@
 #################################################################
-# Set up Running mpileup
+# combine the output of each mpileup run into a single VCF
 
 ## author: Andrew Ruttenberg
 ## contact: ruttenberg.andrew@wustl.edu
