@@ -15,23 +15,38 @@ class variant:
         return self.chrom + " " + str(self.start) + "-" + str(self.stop) + " " + self.ref + "->" + self.alt
 
 def makeFastaDict(fasta):
+    """
+    Input:
+        fasta: a reference fasta.
+        
+    Output:
+        FastaDict: A dictoranry where each key is the contig and the entry is the sequences of the contig
+    """
     with open(fasta, 'r') as fa:
         lines = [l for l in fa]
     firstLine=lines.pop(0)
     chrom=firstLine.split()[0][1:]
     sequence=""
-    FastaDic = {}
+    FastaDict = {}
     for line in lines:
         if line.startswith(">"):
-            FastaDic[chrom]=sequence
+            FastaDict[chrom]=sequence
             chrom=line.split()[0][1:]
             sequence=""
         else:
             sequence=sequence+line.replace('\n', '')
-    FastaDic[chrom]=sequence
-    return(FastaDic)
+    FastaDict[chrom]=sequence
+    return(FastaDict)
 
 def subsetGraphVariants(GraphVarsList, Sample):
+    """
+    Input:
+        GraphVarsList: a list of variants in the graph
+        Sample: the sample the variants are from
+        
+    Output:
+        out: the list of variants convered to a different, more workable form
+    """
     out=[]
     for record in GraphVarsList:
         GTIndex=record.samples[Sample]['GT'][0]
@@ -44,6 +59,14 @@ def subsetGraphVariants(GraphVarsList, Sample):
     return(out)
 
 def subsetDipVariants(DipVarList, Sample):
+    """
+    Input:
+        DipVarList: a list of variants in dipcall
+        Sample: the sample the variants are from
+        
+    Output:
+        out: the list of variants convered to a different, more workable form
+    """
     out=[]
     for record in DipVarList:
         GTIndex=record.samples[Sample]['GT'][1]
@@ -133,9 +156,9 @@ def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, d
         t.write(str(record))
     t.close()
 
-def find_overlaps_linear(list1, list2, dist): #thank GPT
+def find_overlaps_linear(list1, list2, dist):
     overlaps = []
-    i, j = 0, 0  # Pointers for the two lists
+    i, j = 0, 0 
 
     while i < len(list1) and j < len(list2):
         start1, end1 = list1[i]
