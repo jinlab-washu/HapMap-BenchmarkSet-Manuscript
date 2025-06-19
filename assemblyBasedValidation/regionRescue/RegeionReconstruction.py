@@ -1,4 +1,13 @@
-#Docker: biocontainers/python3-pysam:v0.10.0ds-2-deb_cv1
+#################################################################
+# Reconstructs the local sequence at each variant missed in 
+# alignment validation and compares it to the seuqnece as provided
+# by dipcall, allowing for additional variants that are 
+# reperesented differently to be validated
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 import argparse
 import pysam
 import os
