@@ -1,3 +1,13 @@
+#################################################################
+# for every variant, plots the probability of the observed allele
+# frequnecy given the null hypothesis that observed allele frequnecy 
+# follows a binomial distibution when p=expected allele frqunecy and 
+# n=read depth at the specific position
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 import argparse
 import numpy as np
 from scipy.stats import binom
@@ -42,6 +52,13 @@ class SNV:
               
     
 def makeSNVsFromTruthset(file):
+    """
+    Input:
+        file: the vcf of the truthset variants
+        
+    Output:
+        SNVList: A list of SNVs reformated to be more workable
+    """
     Out=[]
     with open(file, 'r') as of:
         lines = [l for l in of if not l.startswith('#') and not l.startswith('"##')]
@@ -70,6 +87,13 @@ def makeSNVsFromTruthset(file):
     return(Out)
 
 def makeSNVsFromPileup(file):
+    """
+    Input:
+        file: the vcf of the pileup variants
+        
+    Output:
+        SNVList: A list of SNVs reformated to be more workable
+    """
     Out=[]
     with open(file, 'r') as of:
         lines = [l for l in of if not l.startswith('#') and not l.startswith('"##')]
@@ -101,52 +125,28 @@ def makeSNVsFromPileup(file):
     return(Out)
 
 def ReadDepthFile(depthFile):
-    dic = {}
+    """
+    Input:
+        depthFile: a file with the read depth at each position
+    Output:
+        depthDict: a dictonary where each index is a genomic position and each entry is the read depth
+    """
+    depthDict = {}
     with open(depthFile, "r") as file:
         for line in file:
             split=line.strip().split()
             index=f"{split[0]}_{split[1]}"
             depth=int(split[2])
-            dic[index]=depth
-    return(dic)
-
-def writeToOutFile(File, Lines):
-        f=open(File, "w")
-        for line in Lines:
-            f.write(f"{line.line}")
-        f.close()
-
-def updateStat(n, p, observed):
-    if p==0:
-        print("error in p value: its 0")
-    if n==0:
-        observedprob=0
-    else:
-        observedprob=observed/n
-    observedStat=binom.pmf(observed, n, observedprob)
-    expectedStat=binom.pmf(observed, n, p)
-    if observedStat==0:
-        observedStat=sys.float_info.min
-    if expectedStat==0:
-        expectedStat=sys.float_info.min
-    observedTotal=math.log(observedStat)
-    expectedTotal=math.log(expectedStat)
-    return(observedTotal, expectedTotal)
-
-def makeNullDist(var, depth, iterations):
-    Null=[]
-    for i in range(iterations):
-        p=var.ALT.count
-        key=f"{var.chrom}_{var.POS}"
-        n=depth
-        sample=np.random.binomial(n, p, 1)
-        observedTotal, expectedTotal=updateStat(n, p, sample[0])
-        if observedTotal==expectedTotal and observedTotal==0:
-            return(None)
-        Null.append(observedTotal/expectedTotal)
-    return Null
+            depthDict[index]=depth
+    return(depthDict)
 
 def makeChromGWAS(gwas_data, outfile, cuttoff):
+    """
+    Input:
+        gwas_data: a data frame with the read depth, expected VAF, and observed VAF for each variant being plotted
+        outfile: path to the output file
+        cuttoff: significance threshold 
+    """
     gwas_data['-log10P'] = -np.log10(gwas_data['Pvalue1'])
     gwas_data = gwas_data.sort_values(['CHR', 'POS'])
 
@@ -172,6 +172,11 @@ def makeChromGWAS(gwas_data, outfile, cuttoff):
 
 
 def AFChecker(truthSet, mPileup):
+    """
+    Input:
+        truthSet: list of truthset variants
+        outfile: list of pileup variants
+    """
     i=0
     counter_1=0
     total=0
@@ -208,31 +213,6 @@ def AFChecker(truthSet, mPileup):
     print(f"total variants: {total}")
     print(f"validated by binom method: {total-counter_1} or {(total-counter_1)/total}")
 
-    #gwas_overall_data['-log10P'] = -np.log10(gwas_overall_data['Pvalue1'])
-    #gwas_overall_data = gwas_overall_data.sort_values(['CHR', 'POS'])
-    #gwas_overall_data['pos_cumulative'] = gwas_overall_data.groupby('CHR')['POS'].cumsum()
-    #chr_boundaries = gwas_overall_data.groupby('CHR')['pos_cumulative'].max().cumsum()
-
-    #plt.figure(figsize=(12, 6))
-    #colors = ['blue', 'orange']  # Alternating colors for chromosomes
-
-    #for i, (chr, group) in enumerate(gwas_overall_data.groupby('CHR')):
-    #    plt.scatter(group['pos_cumulative'], group['-log10P'], 
-    #                alpha=0.2, c=colors[i % len(colors)], s=2, label=f'Chromosome {chr}')
-
-    #significance_threshold = -np.log10(cuttoff)  # Common GWAS threshold
-    #plt.axhline(y=significance_threshold, color='red', linestyle='--', label='Significance threshold')
-    #plt.xlabel("Chromosome")
-    #plt.ylabel("-log10 p-value")
-    #plt.title("Manhattan Plot")
-    #plt.xticks(chr_boundaries - chr_boundaries.diff().fillna(chr_boundaries.iloc[0]) / 2, range(1, len(chr_boundaries) + 1))
-    #plt.legend()
-    #plt.tight_layout()
-
-    #plt.savefig("/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SNV/AlleleFreqTest/GWASPlotsJan1/AFGWASAll.svg", dpi=300, format='svg')
-
-    #plt.clf()
-
 def main(): 
     parser = argparse.ArgumentParser(
         description=__doc__,
@@ -246,9 +226,6 @@ def main():
     PileUpSNVS=makeSNVsFromPileup(args.pileup)
     print("comparing Results")
     AFChecker(TruthSetSNVS, PileUpSNVS)
-
-    
-
 
 if __name__ == '__main__':
     main()
