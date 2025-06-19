@@ -1,3 +1,12 @@
+#################################################################
+# for each variant validated from alignment based validation
+# find the expected and observed allele frequnecy, and graphs
+# the difference between the two
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 import argparse
 import matplotlib.pyplot as plt
 import numpy as np
@@ -41,7 +50,14 @@ class SNV:
               
     
 def makeSNVsFromTruthset(file):
-    Out=[]
+    """
+    Input:
+        file: the vcf of the truthset variants
+        
+    Output:
+        SNVList: A list of SNVs reformated to be more workable
+    """
+    SNVList=[]
     with open(file, 'r') as of:
         lines = [l for l in of if not l.startswith('#') and not l.startswith('"##')]
     for line in lines:
@@ -61,12 +77,19 @@ def makeSNVsFromTruthset(file):
             AFString='0'
         AF=float(AFString)
         ALT=Allele(ALTBase, AF)
-        Out.append(SNV(chrom, POS, REF, ALT, line))
-    Out.sort()
-    return(Out)
+        SNVList.append(SNV(chrom, POS, REF, ALT, line))
+    SNVList.sort()
+    return(SNVList)
 
 def makeSNVsFromPileup(file):
-    Out=[]
+    """
+    Input:
+        file: the vcf of the pileup variants
+        
+    Output:
+        SNVList: A list of SNVs reformated to be more workable
+    """
+    SNVList=[]
     with open(file, 'r') as of:
         lines = [l for l in of if not l.startswith('#') and not l.startswith('"##')]
     for line in lines:
@@ -92,23 +115,18 @@ def makeSNVsFromPileup(file):
         Alleles=[]
         for i in range(len(ALT)):
             Alleles.append(Allele(ALT[i], int(AFs[i+1])/depth))
-        Out.append(SNV(chrom, POS, REF, Alleles, line))
-    Out.sort()
+        SNVList.append(SNV(chrom, POS, REF, Alleles, line))
+    SNVList.sort()
     return(Out)
 
-def writeToOutFile(File, Lines):
-        f=open(File, "w")
-        for line in Lines:
-            if line.chrom==22:
-                chromeString='X'
-            elif line.chrom==23:
-                chromeString='Y'
-            else:
-                chromeString=line.chrom
-            f.write(f"{line.line}")
-        f.close()
-
 def makeChart(truthSet, mPileup, outDir):
+    """
+    Input:
+        truthSet: list of truthset SNVs
+        mPileup: list of pileup SNVs
+        outDir: output directory to store outputed graphs in
+
+    """
     expectedAF=[]
     observedAF=[]
     diff=[]
