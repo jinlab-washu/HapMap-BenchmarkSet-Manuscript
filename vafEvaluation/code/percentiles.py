@@ -1,6 +1,5 @@
 #################################################################
-# based on a given percentile size, idenfies the lowest VAF and
-# highest VAF in the bound in real data
+# find the observed VAF of the lower and upper percentile given 
 
 ## author: Andrew Ruttenberg
 ## contact: ruttenberg.andrew@wustl.edu
