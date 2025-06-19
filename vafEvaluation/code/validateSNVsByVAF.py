@@ -125,11 +125,11 @@ def writeToOutFile(File, Lines):
         f.write(f"{line.line}")
     f.close()
 
-def checkBed (var, bed):
+def checkBed (var, bedList):
     """
     Input:
         var: a single SNV
-        bed: a list of bed files for the disotrion regions in each haplotype
+        bedList: a list of bed files for the disotrion regions in each haplotype
     """
     info=var.line.strip().split()[7]
     genotypes = re.findall(r'[0-9.*]+\|[0-9.*]+', info)
@@ -140,7 +140,7 @@ def checkBed (var, bed):
     ]
     for i in range(0,12):
         if numbers[i]==1:
-            with open(bed[i], 'r') as f:
+            with open(bedList[i], 'r') as f:
                 for line in f:
                     bedsplit=line.strip().split()
                     if var.POS>=int(bedsplit[1]) and var.POS<int(bedsplit[2]):
