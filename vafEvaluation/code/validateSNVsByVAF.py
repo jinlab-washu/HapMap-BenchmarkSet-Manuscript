@@ -42,7 +42,14 @@ class SNV:
               
     
 def makeSNVsFromTruthset(file):
-    Out=[]
+    """
+    Input:
+        file: the vcf of the truthset variants
+        
+    Output:
+        SNVList: A list of SNVs reformated to be more workable
+    """
+    SNVList=[]
     with open(file, 'r') as of:
         lines = [l for l in of if not l.startswith('#') and not l.startswith('"##')]
     for line in lines:
@@ -65,12 +72,19 @@ def makeSNVsFromTruthset(file):
         else:
             AF=float(AFString[1])
         ALT=Allele(ALTBase, AF, 1)
-        Out.append(SNV(chrom, POS, REF, ALT, line))
-    Out.sort()
-    return(Out)
+        SNVList.append(SNV(chrom, POS, REF, ALT, line))
+    SNVList.sort()
+    return(SNVList)
 
 def makeSNVsFromPileup(file):
-    Out=[]
+    """
+    Input:
+        file: the vcf of the pileup variants
+        
+    Output:
+        SNVList: A list of SNVs reformated to be more workable
+    """
+    SNVList=[]
     with open(file, 'r') as of:
         lines = [l for l in of if not l.startswith('#') and not l.startswith('"##')]
     for line in lines:
@@ -96,18 +110,27 @@ def makeSNVsFromPileup(file):
         Alleles=[]
         for i in range(len(ALT)):
             Alleles.append(Allele(ALT[i], int(AFs[i+1]), depth))
-        Out.append(SNV(chrom, POS, REF, Alleles, line))
-    Out.sort()
-    return(Out)
+        SNVList.append(SNV(chrom, POS, REF, Alleles, line))
+    SNVList.sort()
+    return(SNVList)
 
 def writeToOutFile(File, Lines):
-        f=open(File, "w")
-        for line in Lines:
-            f.write(f"{line.line}")
-        f.close()
+    """
+    Input:
+        File: path to file to write to
+        Lines: Lines to write to the file
+    """
+    f=open(File, "w")
+    for line in Lines:
+        f.write(f"{line.line}")
+    f.close()
 
 def checkBed (var, bed):
-    #find what cell lines V
+    """
+    Input:
+        var: a single SNV
+        bed: a list of bed files for the disotrion regions in each haplotype
+    """
     info=var.line.strip().split()[7]
     genotypes = re.findall(r'[0-9.*]+\|[0-9.*]+', info)
     numbers = [
@@ -125,6 +148,12 @@ def checkBed (var, bed):
     return False
 
 def AFChecker(truthSet, mPileup, bedList):
+    """
+    Input:
+        truthSet: the truthset SNVs
+        mPileup: the pileup SNVs
+        bedList: a list of bed files for the disotrion regions in each haplotype
+    """    
     i=0
     counter=0
     total=0
