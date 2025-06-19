@@ -1,3 +1,11 @@
+#################################################################
+# based on a given percentile size, idenfies the lowest VAF and
+# highest VAF in the bound in real data
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 import argparse
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,6 +31,14 @@ class SNV:
 
 
 def makeSNVs(truthset, Calls):
+    """
+    Input:
+        truthset: the vcf of the truthset variants
+        Calls: the vcf of the mpileup variants
+        
+    Output:
+        OutDict: A dictonary of SNVs in the truhtset with info about if they are seen in the calls
+    """
     OutDict={}
 
     with open(truthset, 'r') as truthfile:
@@ -84,6 +100,13 @@ def makeSNVs(truthset, Calls):
     return(OutDict)
 
 def AFChecker(SNVs, lower, upper, VAF):
+    """
+    Input:
+        SNVs: A dictonary of SNVs in the truhtset with info about if they are seen in the calls
+        lower: the lower bound of the percentile range
+        upper: the upper bound of the percentile range
+        VAF: an optional paramater. If provided only look at variants of the given VAF
+    """
     obs=[]
     for key in SNVs:
 
