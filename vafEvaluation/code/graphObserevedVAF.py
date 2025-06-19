@@ -1,3 +1,11 @@
+#################################################################
+# graph the observed allele fruqnecy of all variants validated
+# within a sample
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 import argparse
 import matplotlib.pyplot as plt
 import numpy as np
@@ -35,6 +43,14 @@ class SNV:
         return self.ALT in other.ALT
     
 def makeSNVs(truthset, Calls):
+    """
+    Input:
+        truthset: the vcf of the truthset variants
+        Calls: the vcf of the mpileup variants
+        
+    Output:
+        OutDict: A dictonary of SNVs in the truhtset with info about if they are seen in the calls
+    """
     OutDict={}
 
     with open(truthset, 'r') as truthfile:
@@ -97,7 +113,12 @@ def makeSNVs(truthset, Calls):
 
     return(OutDict)
 
-def makeHist(arr, name):
+def makeHist(arr, outFile):
+    """
+    Input:
+        arr: a list of observed VAFs
+        outFile: path to the output file
+    """
     median = np.median(arr)
     print(median)
     ticks = np.arange(0, 1.1, 0.1)
@@ -121,11 +142,16 @@ def makeHist(arr, name):
     # Save the histogram to a file
     plt.subplots_adjust(top=0.85, bottom=0.40)
     bottom=0.15
-    plt.savefig(f"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SNV/AFPlots/Hist/CellLineObserved/{name}.svg", format='svg')
+    plt.savefig(outFile, format='svg')
     plt.close()
-    print(f"graph at /storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SNV/AFPlots/Hist/CellLineObserved/{name}.svg")
+    print(f"graph at {outFile}")
 
 def AFChecker(SNVs, outfile):
+    """
+    Input:
+        SNVs: A dictonary of SNVs in the truhtset with info about if they are seen in the calls
+        outfile: the path to the output file
+    """
     obs=[]
     for key in SNVs:
         if len(SNVs[key])==1:
