@@ -1,3 +1,13 @@
+#################################################################
+# using a binomial distubution, calculates the probability
+# of seeing the oberved VAF, given the expcected VAF and read
+# depth of each variant. Uses this to calculate what percent of
+# variants have unexpecred observed VAFs
+
+## author: Andrew Ruttenberg
+## contact: ruttenberg.andrew@wustl.edu
+#################################################################
+
 import argparse
 import numpy as np
 from scipy.stats import binomtest
