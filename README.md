@@ -38,6 +38,8 @@ This repository goes over all the code used to validate the VAF of the variants 
 
 ## Model Fitting
 
+This repository records code used for fitting different prediction models.
+
 ## Manuscript Figure Generation
 
 This repository holds scripts to generate all figures in our manuscript.
