@@ -1,0 +1,48 @@
+{
+    "HapMapSim.TotalReadDepth": READDEPTH,
+    "HapMapSim.HG00438_Mother":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG00438/HG00438.maternal.f1_assembly_v2_genbank.fa",
+    "HapMapSim.HG00438_Father":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG00438/HG00438.paternal.f1_assembly_v2_genbank.fa",
+
+    "HapMapSim.HG002_Mother":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG002/HG002.maternal.f1_assembly_v2_genbank.fa",
+    "HapMapSim.HG002_Father":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG002/HG002.paternal.f1_assembly_v2_genbank.fa",
+
+    "HapMapSim.HG02257_Mother":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG02257/HG02257.maternal.f1_assembly_v2_genbank.fa",
+    "HapMapSim.HG02257_Father":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG02257/HG02257.paternal.f1_assembly_v2_genbank.fa",
+
+    "HapMapSim.HG02486_Mother":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG02486/HG02486.maternal.f1_assembly_v2_genbank.fa",
+    "HapMapSim.HG02486_Father":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG02486/HG02486.paternal.f1_assembly_v2_genbank.fa",
+
+    "HapMapSim.HG02622_Mother":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG02622/HG02622.maternal.f1_assembly_v2_genbank.fa",
+    "HapMapSim.HG02622_Father":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/input_fastas/Original_Contig_Only_Assemblies/HG02622/HG02622.paternal.f1_assembly_v2_genbank.fa",
+
+    "HapMapSim.HG005_Bam":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SRS_Sims/AligmentCromwell/output/three_similations/incompletePeices/HG005_83x_sim_sorted.bam",
+    "HapMapSim.HG005_Depth":100,
+
+    "HapMapSim.ReadLength":151,
+    "HapMapSim.ReadPairDistance":345,
+    "HapMapSim.ReadPairDistanceSD":55,
+    "HapMapSim.ErrorRate":0.001,
+    "HapMapSim.OPTICAL_DUPLICATE_PIXEL_DISTANCE":2500,
+    
+    "HapMapSim.Reference":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa",
+    "HapMapSim.RefFAI":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.fai",
+    "HapMapSim.RefAMB":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.amb",
+    "HapMapSim.RefANN":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.ann",
+    "HapMapSim.RefBWT":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.bwt",
+    "HapMapSim.RefPAC":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.pac",
+    "HapMapSim.RefSA":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.sa",
+    "HapMapSim.ReferenceDict":"/storage1/fs1/jin810/Active/testing/Nahyun/For_share/GCA_000001405.15_GRCh38_no_alt_analysis_set.dict",
+
+    "HapMapSim.KnownSNVs":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SRS_Sims/AligmentCromwell/references/resources-broad-hg38-v0-Homo_sapiens_assembly38.dbsnp138.vcf",
+    "HapMapSim.SNVIndex":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SRS_Sims/AligmentCromwell/references/resources-broad-hg38-v0-Homo_sapiens_assembly38.dbsnp138.vcf.idx",
+    "HapMapSim.KnownIndels":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SRS_Sims/AligmentCromwell/references/Mills_and_1000G_gold_standard.indels.hg38.vcf",
+    "HapMapSim.IndelIndex":"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SRS_Sims/AligmentCromwell/references/Mills_and_1000G_gold_standard.indels.hg38.vcf.idx ",
+
+    "HapMapSim.WGSimDocker":"pegi3s/wgsim:latest",
+    "HapMapSim.FastpDocker":"nahyunkong/alignment_qc:v.0.0.1",
+    "HapMapSim.BwaDocker":"nahyunkong/alignment_qc:v.0.0.1",
+    "HapMapSim.GATK3Docker":"broadinstitute/gatk3:3.8-1",
+    "HapMapSim.GATK4Docker":"broadinstitute/gatk:4.1.0.0",
+    "HapMapSim.PicardDocker":"nahyunkong/alignment_qc:v.0.0.1",
+    "HapMapSim.SamtoolsDocker":"xinzilan/alignment:1.0.1"
+}
