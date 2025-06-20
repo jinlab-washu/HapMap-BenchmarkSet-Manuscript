@@ -1,6 +1,6 @@
 # Assembly based Validation
 
-This repository goes over the methodology for validating SNVs, Indels, and SVs usingm an assembly based approach.
+This repository goes over the methodology for validating SNVs, Indels, and SVs using an assembly based approach.
 
 ## File Structure
 ```markdown

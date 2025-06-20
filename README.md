@@ -5,13 +5,12 @@ This repository holds scripts for all analysis done for [this paper](), includin
 ## File Structure
 ```markdown
 ├── alignmentBasedValidation/
-    ├── [SNVs (mpileup)]
-    └── [Indels and SVs (in-house cigarCaller)]
+    ├── IndelsAndSVs/
+    └── SNVs/
 ├── assemblyBasedValidation/
     ├── [Dipcall]
-    └── [regionRescue code]
+    └── regionRescue/
 ├── manuscriptFigures/
-    └── [code to create all manuscript figures]
 ├── modelFitting/
     └── [code for model fitting]
 ├── simulations/
@@ -20,25 +19,28 @@ This repository holds scripts for all analysis done for [this paper](), includin
 └── vafEvaluation/
 ```
 
-## Table of Contents
-- [Short and Long Read Simulation](#short-and-long-read-simulation)
-- [Alignment Based Validation](#alignment-based-validation)
-- [Assembly Based Validation](#assembly-based-validation)
-- [Variant Allele Frequency Evaluation](#variant-allele-frequency-evaluation)
-- [Model Fitting](#model-fitting)
-- [Manuscript Figure Generation](#manuscript-figure-generation)
 
 ## Short and Long Read Simulation
 
+This repository denotes code used for generating short- and long-read sequencing data that were used in subsequent truth set validation steps.
+
 ## Alignment Based Validation
+
+This repository goes over the methodology for validating the SNVs, Indels, and SVs within our somatic variant truthset using an alignment based approach. See READMEs in subdirectories for more information.
 
 ## Assembly Based Validation
 
+This repository goes over the methodology for validating SNVs, Indels, and SVs using an assembly based approach. See READMEs in subdirectories for more information.
+
 ## Variant Allele Frequency Evaluation
+
+This repository goes over all the code used to validate the VAF of the variants in the truthset. See READMEs in subdirectories for more information.
 
 ## Model Fitting
 
 ## Manuscript Figure Generation
+
+This repository holds scripts to generate all figures in our manuscript.
 
 
     
