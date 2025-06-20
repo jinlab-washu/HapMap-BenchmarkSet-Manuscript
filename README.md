@@ -1,4 +1,4 @@
-# graph-based-truth-set
+# HapMap-TruthSet-Manuscript
 
 This repository holds scripts for all analysis done for [this paper](), including truth set validation, model fitting, and figure generation. More information about can be found in Methods section of our paper. 
 
