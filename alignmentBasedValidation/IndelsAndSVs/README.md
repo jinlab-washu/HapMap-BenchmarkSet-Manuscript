@@ -8,7 +8,7 @@ This repository goes over the methodology for validating the Indels and SVs with
     ├── CigarCaller.py
     ├── CigarCaller.sh
     ├── CigarCallerEX.sh
-    ├── CombineCigarCalls.sh
+    └── CombineCigarCalls.sh
 ```
 
 ## Software requirement
@@ -22,59 +22,60 @@ This repository goes over the methodology for validating the Indels and SVs with
 * truvari
 
 ## Overall Pipeline
-This pipeline takes in a bam file and a list of known Indels or SVs as inputs. It will then, for each variant listed, subset the bam file into just reads overlapping that variant and store it in a unique sam file. For each read in each of the sam files, the cigar codes will be evaluated to find all insertions or deletions present in any of the reads. Using these cigar codes we make a VCF of all the variants present in any of these sam files, giving a comprehesive list of insertions and deletions within the bam files. This list is then used as an input to truvari to validated the inital list of indels/SVs
+This pipeline takes in a BAM file and a list of known Indels or SVs as inputs. It will then, for each variant listed, subset the BAM file into just reads overlapping that variant and store them in SAM files. For each read in each of the SAM files, the CIGAR codes will be evaluated to find all insertions or deletions present in any of the reads. Using these CIGAR codes we make a VCF of all the variants present in any of these SAM files, giving a comprehesive list of insertions and deletions. This list is then used as an input to `truvari` to validated the inital list of indels and SVs.
 
 ### CigarCaller.sh
 The entry point to this pipeline sets up all the directories and files needed for the run. To save time and resources we check the variants on each chromosome seperatly, so this file is used to loop over all the chromosomes
 
-to run this code 
+To run this code :
+
 ```bash
-bash CigarCaller.sh $variant_type $bam_file $reference_file $sequecing_type $run_name $list_of_variants $out_directory
+bash CigarCaller.sh $variant_type $BAM_file $reference_file $sequecing_type $run_name $list_of_variants $out_directory
 ```
 where 
-* variant_type: "Indel" if making of list of indels or "SV" if making a list of SVs
-* bam_file: a bam file to search for variants in
-* reference_file: the reference file the bam file is aligned to
-* sequecing_type: "True" if the bam file is long read sequencing, "False" if it is short read sequencing
-* run_name: a name for the run (will make a directory in the output directory with this name to store the results
-* list_of_variants: A list of indels or svs to run the pileup on
-* out_directory: the output directroy to store the results
+* `variant_type`: "Indel" if making of list of indels or "SV" if making a list of SVs
+* `BAM_file`: a BAM file to search for variants in
+* `reference_file`: the reference file the BAM file is aligned to
+* `sequecing_type`: "True" if the BAM file is long read sequencing, "False" if it is short read sequencing
+* `run_name`: a name for the run (will make a directory in the output directory with this name to store the results
+* `list_of_variants`: A list of indels or svs to run the pileup on
+* `out_directory`: the output directroy to store the results
 
-This code then iterate though each chromosome, and for each one calls ```CigarCallerEX.sh```
+This code then iterate though each chromosome, and calls ```CigarCallerEX.sh```
 
 ### CigarCallerEX.sh
-this code subsets the inputed bam file into various sam files, one for all the reads overlapping each variant. After creating the sam files it calls '''CigarCaller.py''' to call all the indels or SVs in each of the sam files
+This code subsets the inputed BAM file into various SAM files, one for all the reads overlapping each variant. After creating the SAM files it calls `CigarCaller.py` to call all the indels or SVs in each of the SAM files.
 
 ### CigarCaller.py
-this python script iterates though each sam file provided. For each one it will check the cigar code for each read, looking for either 'I' or 'D'. When it finds one, it uses the reference fasta along with the read sequence to create the indel/SV and stores it in a dictonary. After iterating though each sam file, the dictonary represents each variant present. Each of those variants is then written to the output VCF
+This python script iterates though each SAM file provided. For each one it will check the CIGAR code for each read, looking for either 'I' or 'D'. When it finds one, it uses the reference fasta along with the read sequence to create the indel/SV and stores it in a dictionary. After iterating though each SAM file, the dictionary represents all variants present. Each of those variants is then written to the output VCF.
 
 ### CombineCigarCalls.sh
-After the cigar calling has been run there will be 24 different vcf outputs, one for each chromosome. The following script combines them all into a single vcf, as well as sorts and indexes the vcf
+After the CIGAR calling has been run there will be 24 different VCF outputs, one for each chromosome. The following script combines them all into a single VCF, as well as sorts and indexes the VCF.
 
-to run this code 
+To run this code,
 ```bash
 bash CombineCigarCalls.sh $CigarCalls_directory_output $output_vcf_name
 ```
-where ```$CigarCalls_directory_output``` is ```$out_directory\$run_name``` and output_vcf_name is the name for the output vcf
+where ```$CigarCalls_directory_output``` is ```$out_directory\$run_name``` and `output_vcf_name` is the name for the output VCF.
 
-this will produce the file ```$output_directory\$run_name\${output_vcf_name}_sorted.vcf``` as the final vcf for the entire pipeline
+This will produce the file ```$output_directory\$run_name\${output_vcf_name}_sorted.vcf``` as the final VCF output for the entire pipeline.
 
-## validating the truthset
+## Validating the truthset
 
-to use ```truvari``` to validate the truthset run the following steps
+To use ```truvari``` to validate the truthset, run the following steps:
 
-1. make sure you are in the correct directory
+1. Make sure you are in the correct directory
 ```bash
 cd $out_directory\$run_name
 ```
-2. run truvari usinging the following paramters
-* -s 1 if indels or 50 if SVs
-* -S 1 if indels or 50 if SVs
-* --pick multi
-* --pctseq 1 if indels or 0.7 if SVs
-* --pctsize 1 if indels or 0.7 if SVs
+2. Run truvari usinging the following paramters
+* `-s 1` if indels or `50` if SVs
+* `-S 1` if indels or `50` if SVs
+* `--pick multi`
+* `--pctseq 1` if indels or `0.7` if SVs
+* `--pctsize 1` if indels or `0.7` if SVs
 
-exampe run
+Exampe run for SVs:
 ```bash
-truvari bench -b truthset.vcf.gz -c cigarcalls.vcf.gz -f referenceFasta.fna --bSample HapMap_Mixture --cSample syndip -s 50 -S 50 --pick multi --pctseq 0.7 --pctsize 0.7 --includebed benchmarkRegions.bed -o SV_Validation_Truvari
+truvari bench -b truthset.vcf.gz -c cigarcalls.vcf.gz -f referenceFasta.fna --bSAMple HapMap_Mixture --cSAMple syndip -s 50 -S 50 --pick multi --pctseq 0.7 --pctsize 0.7 --includebed benchmarkRegions.bed -o SV_Validation_Truvari
 ```
