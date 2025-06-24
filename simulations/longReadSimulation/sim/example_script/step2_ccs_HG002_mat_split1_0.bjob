@@ -1,0 +1,19 @@
+#!/bin/bash
+#BSUB -n 31
+#BSUB -q general
+#BSUB -M 50GB
+#BSUB -W 10080
+#BSUB -N 
+#BSUB -u wenjin@wustl.edu
+#BSUB -G compute-epigenome
+#BSUB -J 2M1-0
+#BSUB -oo /storage2/fs1/epigenome/Active/smaht/Active/wenjin/projects/somatic_SV_validation/simulation//step2_bjobs/HG002_mat/split1_0.out
+#BSUB -R 'select[mem>50000 && tmp>20] rusage[mem=50000, tmp=20] span[hosts=1]'
+#BSUB -a 'docker(ctomlins/pacbio_tools:latest)' 
+
+
+
+
+bash ./step2_ccs_HG002_mat_split1_0.sh
+
+

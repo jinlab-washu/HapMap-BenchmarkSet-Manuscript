@@ -1,0 +1,37 @@
+#!/bin/bash
+#BSUB -n 2
+#BSUB -q general
+#BSUB -M 2GB
+#BSUB -W 10080
+#BSUB -G compute-epigenome
+#BSUB -o /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation//step4/out/HG002MS1X1.out
+#BSUB -e /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation//step4/err/HG002MS1X1.err
+#BSUB -R 'select[mem>2000 && tmp>20] rusage[mem=2000, tmp=20] span[hosts=1]'
+#BSUB -a 'docker(ubuntu:22.04)' 
+                    
+
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p1.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P1.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p2.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P2.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p3.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P3.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p4.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P4.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p5.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P5.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p6.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P6.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p7.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P7.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p8.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P8.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p9.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P9.txt
+
+python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/p10.bam /storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/bam_stat/HG002/MS1P10.txt
+
+
+
+
+
