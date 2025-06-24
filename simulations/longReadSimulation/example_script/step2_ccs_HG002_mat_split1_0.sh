@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /storage2/fs1/epigenome/Active/smaht/Active/wenjin/projects/somatic_SV_validation/simulation/HG002_mat/split1/pbsim/
+cd /simulation/HG002_mat/split1/pbsim/
 
 
 /opt/conda/bin/pbindex -j 30 p1_0001.bam > ../logs/CCS_p1.log 2>&1

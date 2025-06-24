@@ -1,3 +1,20 @@
+
+#################################################################
+# Parallelized PBSIM3 wrapper for efficient long-read sequencing 
+# simulation by dividing input FASTA into multiple parts.
+#
+# Author: Wenjin Zhang
+# Contact: wenjin@wustl.edu
+#
+# Steps
+# 1. Divide the input fasta file into multiple parts
+# 2. Run PBSIM3 on each part in parallel
+# 3. Combine the results from each part into a single output file
+# 4. Clean up the intermediate files and logs
+#################################################################
+
+
+
 import os
 import re
 import sys
@@ -6,25 +23,6 @@ import shutil
 import argparse
 import subprocess
 import multiprocessing
-
-
-
-
-
-
-
-
-
-
-
-# This program achieves parallelization by dividing the input fasta file into multiple parts, and then running PBSIM3 on each part in parallel.
-
-
-# Steps
-# 1. Divide the input fasta file into multiple parts
-# 2. Run PBSIM3 on each part in parallel
-# 3. Combine the results from each part into a single output file
-# 4. Clean up the intermediate files and logs
 
 
 
@@ -54,7 +52,7 @@ import multiprocessing
 
 
 
-pbsim_bin_fp = f"/Users/wenjin/code/wustl_research/SMaHT/pbsim3p/pbsim3/bin/bin/pbsim"
+pbsim_bin_fp = f"/SMaHT/pbsim3p/pbsim3/bin/bin/pbsim"
 # TODO
 # pbsim_bin_fp = f"pbsim"
 

@@ -1,0 +1,37 @@
+#!/bin/bash
+#BSUB -n 2
+#BSUB -q general
+#BSUB -M 2GB
+#BSUB -W 10080
+#BSUB -G compute-epigenome
+#BSUB -o /simulation//step4/out/HG002MS1X1.out
+#BSUB -e /simulation//step4/err/HG002MS1X1.err
+#BSUB -R 'select[mem>2000 && tmp>20] rusage[mem=2000, tmp=20] span[hosts=1]'
+#BSUB -a 'docker(ubuntu:22.04)' 
+                    
+
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p1.bam /simulation/bam_stat/HG002/MS1P1.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p2.bam /simulation/bam_stat/HG002/MS1P2.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p3.bam /simulation/bam_stat/HG002/MS1P3.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p4.bam /simulation/bam_stat/HG002/MS1P4.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p5.bam /simulation/bam_stat/HG002/MS1P5.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p6.bam /simulation/bam_stat/HG002/MS1P6.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p7.bam /simulation/bam_stat/HG002/MS1P7.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p8.bam /simulation/bam_stat/HG002/MS1P8.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p9.bam /simulation/bam_stat/HG002/MS1P9.txt
+
+python3 /script/bam_stat.py /simulation/HG002_mat/split1/pbsim/p10.bam /simulation/bam_stat/HG002/MS1P10.txt
+
+
+
+
+

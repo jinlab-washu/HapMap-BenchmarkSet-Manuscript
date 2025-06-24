@@ -1,3 +1,12 @@
+
+#################################################################
+# Main pipeline script for generating large-scale PacBio 
+# simulation workflow with job scheduling and resource management.
+#
+# Author: Wenjin Zhang
+# Contact: wenjin@wustl.edu
+#################################################################
+
 import os
 import re
 import sys
@@ -88,7 +97,7 @@ wlr = 1600 / 135796793 / 10 / 3600
 def get_fasta_fp(sample, phase):
     assert sample in samples
     assert phase in phases
-    return f"/storage2/fs1/epigenome/Active/shared_smaht/data/HPRC_Assemblies/Original_Contig_Only_Assemblies/{sample}/{sample}.{phase}ernal.f1_assembly_v2_genbank.fa"
+    return f"/HPRC_Assemblies/Original_Contig_Only_Assemblies/{sample}/{sample}.{phase}ernal.f1_assembly_v2_genbank.fa"
 
 
 
@@ -104,7 +113,7 @@ for sample in samples:
     for phase in phases:
         fa = get_fasta_fp(sample, phase)
 
-        cmd = f"python3 /storage2/fs1/epigenome/Active/smaht/Active/wenjin/projects/somatic_SV_validation/simulation/fasta_stat/cs.py {fa} > ./stat/{sample}_{phase}.chrom.size &"
+        cmd = f"python3 /simulation/fasta_stat/cs.py {fa} > ./stat/{sample}_{phase}.chrom.size &"
         # print(cmd)
 
 
@@ -160,7 +169,7 @@ memory = 30
 split_coverages = {}
 
 # new pwd
-working_dir = f"/storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/"
+working_dir = f"/simulation/"
 bjobs_folder = f"./step1_bjobs"
 os.makedirs(bjobs_folder, exist_ok=True)
 
@@ -210,7 +219,6 @@ for sample in samples:
 #BSUB -M {memory}GB
 #BSUB -W 10080
 #BSUB -N 
-#BSUB -u wenjin@wustl.edu
 #BSUB -G compute-epigenome
 #BSUB -oo {working_dir}/step1_bjobs/{sample}_{phase}_split{split_i}.out
 #BSUB -R 'select[mem>{memory}000 && tmp>20] rusage[mem={memory}000, tmp=20] span[hosts=1]'
@@ -224,7 +232,7 @@ for sample in samples:
             cmd = ""
             cmd += f"mkdir -p {wd}\n"
             cmd += f"cd {wd}\n\n"
-            cmd += f'python3 /storage2/fs1/epigenome/Active/wenjin/script/pbsim3p.py -wd {wd} -fasta {fa} -id_ad_prefix {sample}{phase[0].upper()}S{split_i} -cleanup Y -t {threads} -pbsim_params "--strategy wgs --method qshmm --qshmm /storage2/fs1/epigenome/Active/wenjin/repo/pbsim3/data/QSHMM-RSII.model --depth {split_cov} --pass-num 7 --accuracy-mean 1 --difference-ratio 1000:0:0 --length-min 300 --length-max 80000 --length-mean 22000 --length-sd 5000" '
+            cmd += f'python3 /script/pbsim3p.py -wd {wd} -fasta {fa} -id_ad_prefix {sample}{phase[0].upper()}S{split_i} -cleanup Y -t {threads} -pbsim_params "--strategy wgs --method qshmm --qshmm /pbsim3/data/QSHMM-RSII.model --depth {split_cov} --pass-num 7 --accuracy-mean 1 --difference-ratio 1000:0:0 --length-min 300 --length-max 80000 --length-mean 22000 --length-sd 5000" '
             cmd += "\n\n"
 
 
@@ -258,7 +266,7 @@ memory = 50
 
 
 
-working_dir = f"/storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/"
+working_dir = f"/simulation/"
 bjobs_folder = f"./step2_bjobs"
 os.makedirs(bjobs_folder, exist_ok=True)
 
@@ -316,7 +324,6 @@ for sample in samples:
 #BSUB -M {memory}GB
 #BSUB -W 10080
 #BSUB -N 
-#BSUB -u wenjin@wustl.edu
 #BSUB -G compute-epigenome
 #BSUB -J {jn}
 #BSUB -oo {working_dir}/step2_bjobs/{sample}_{phase}/split{split_i}_{pi}.out
@@ -379,7 +386,7 @@ os.makedirs(link_sh_folder, exist_ok=True)
 
 for sample in samples:
 
-    wd = f"/storage2/fs1/epigenome/Active/shared_smaht/SV_simulation/separated/{sample}"
+    wd = f"/separated/{sample}"
 
     cmd1 = f"#!/bin/bash\n\n\n"
 
@@ -400,7 +407,7 @@ for sample in samples:
                 ccs_report_fp = f"{working_dir}{sample}_{phase}/split{split_i}/pbsim/p{ci}.ccs_report.txt"
 
 
-                cmd1 += f"python3 /storage2/fs1/epigenome/Active/wenjin/script/ccs_report_check.py {ccs_report_fp}\n"
+                cmd1 += f"python3 /script/ccs_report_check.py {ccs_report_fp}\n"
                 cmd2 += f"cp {bam_fp} ./{phase[0].upper()}S{split_i}P{ci}.bam\n"
                 # print(cmd1)
                 # print(bam_fp)
@@ -474,7 +481,7 @@ for sample in samples:
                 # print(bam_stat_fp)
 
 
-                cmd1 += f"python3 /storage2/fs1/epigenome/Active/wenjin/script/bam_stat.py {bam_fp} {bam_stat_fp}\n\n"
+                cmd1 += f"python3 /script/bam_stat.py {bam_fp} {bam_stat_fp}\n\n"
 
 
                 if ci%10 == 0 or ci == len(contig_length):

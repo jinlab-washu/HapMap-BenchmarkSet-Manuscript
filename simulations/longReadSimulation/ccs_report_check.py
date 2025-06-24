@@ -1,4 +1,13 @@
 
+
+#################################################################
+# Check CCS (Circular Consensus Sequencing) report files to 
+# validate ZMW pass filter rates are above 90% threshold.
+#
+# Author: Wenjin Zhang
+# Contact: wenjin@wustl.edu
+#################################################################
+
 import os
 import re
 import sys
@@ -15,7 +24,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     ccs_fp = arg[0]
-    # ccs_fp = f"/storage2/fs1/epigenome/Active/wenjin/projects/somatic_SV_validation/simulation/HG02622_pat/split1/pbsim/p243.ccs_report.txt"
     if not os.path.exists(ccs_fp):
         print(f"Error: file not found ({ccs_fp})")
         sys.exit(1)

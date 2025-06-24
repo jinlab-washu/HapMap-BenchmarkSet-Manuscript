@@ -1,0 +1,18 @@
+#!/bin/bash
+#BSUB -n 31
+#BSUB -q general
+#BSUB -M 30GB
+#BSUB -W 10080
+#BSUB -N 
+#BSUB -G compute-epigenome
+#BSUB -oo /simulation//step1_bjobs/HG002_mat_split1.out
+#BSUB -R 'select[mem>30000 && tmp>20] rusage[mem=30000, tmp=20] span[hosts=1]'
+#BSUB -a 'docker(ubuntu:22.04)' 
+
+
+
+mkdir -p /simulation/HG002_mat/split1/
+cd /simulation/HG002_mat/split1/
+
+python3 /script/pbsim3p.py -wd /simulation/HG002_mat/split1/ -fasta /HPRC_Assemblies/Original_Contig_Only_Assemblies/HG002/HG002.maternal.f1_assembly_v2_genbank.fa -id_ad_prefix HG002MS1 -cleanup Y -t 30 -pbsim_params "--strategy wgs --method qshmm --qshmm /repo/pbsim3/data/QSHMM-RSII.model --depth 40 --pass-num 7 --accuracy-mean 1 --difference-ratio 1000:0:0 --length-min 300 --length-max 80000 --length-mean 22000 --length-sd 5000" 
+
