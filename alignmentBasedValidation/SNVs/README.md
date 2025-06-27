@@ -36,7 +36,7 @@ where
 
 This code then iterate though each chromosome, and calls ```runMpileupEX.sh```
 
-### runMpileup.sh
+### runMpileupEX.sh
 This code runs the mpile for the given chromosome. First it takes the inputed variants_of_interest (if provided) and subsets it to the given chromosome. Then it runs mpileup on that chromosome
 
 The following paramaters are used for the mpileup run:
