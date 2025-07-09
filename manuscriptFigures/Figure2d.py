@@ -174,16 +174,16 @@ def makeChart(truthSet, mPileup, outDir):
 
     plt.clf()
 
-    fig, ax = plt.subplots(figsize=(width, height)) 
-    ax.hist(diff, bins=100, color='#0077BB', weights=[100 / len(diff)] * len(diff), alpha=0.7, edgecolor='black')
-    ax.set_yscale('log')
-    ax.set_xlabel('Difference between expected and observed', fontdict={'family': 'nimbus sans', 'size': sizeAxis})
-    ax.set_ylabel('Percent (log scale)', fontdict={'family': 'nimbus sans', 'size': sizeAxis})
-    ax.set_title('Expected vs Observed Allele Frequency', fontdict={'family': 'nimbus sans', 'size': sizeTitle})
-    ax.tick_params(axis='x', labelsize=sizeAxis) 
-    ax.tick_params(axis='y', labelsize=sizeAxis)
-    plt.subplots_adjust(bottom=0.20)
-    plt.savefig(f"{outDir}/DifferenceInAFLog.svg", format='svg')
+    # fig, ax = plt.subplots(figsize=(width, height)) 
+    # ax.hist(diff, bins=100, color='#0077BB', weights=[100 / len(diff)] * len(diff), alpha=0.7, edgecolor='black')
+    # ax.set_yscale('log')
+    # ax.set_xlabel('Difference between expected and observed', fontdict={'family': 'nimbus sans', 'size': sizeAxis})
+    # ax.set_ylabel('Percent (log scale)', fontdict={'family': 'nimbus sans', 'size': sizeAxis})
+    # ax.set_title('Expected vs Observed Allele Frequency', fontdict={'family': 'nimbus sans', 'size': sizeTitle})
+    # ax.tick_params(axis='x', labelsize=sizeAxis) 
+    # ax.tick_params(axis='y', labelsize=sizeAxis)
+    # plt.subplots_adjust(bottom=0.20)
+    # plt.savefig(f"{outDir}/DifferenceInAFLog.svg", format='svg')
 
 
 
