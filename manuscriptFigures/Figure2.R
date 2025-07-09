@@ -27,28 +27,28 @@ ggplot(data, aes(x = Coverage, y = ValidationRate)) +
 ########################################## Fig2B ##########################################
 
 data <- data.frame(
-  expectedVAFrange = rep(c("VAF>=10", "5<=VAF<10", "2<=VAF<5", "1<=VAF<2", "VAF<1"), 2),
+  expectedVAFrange = rep(c("VAF<0.01", "0.01≤VAF<0.02", "0.02≤VAF<0.05", "0.05≤VAF<0.10", "VAF≥0.10"), 2),
   coverage = factor(c(
     rep("4000x", 5),
     rep("500x", 5)
   ), levels = c("4000x", "500x")),
   recall_rate = c(
     # 4000x
-    0.9909701658, 0.9762574652, 0.9867675554, 0.9560608736, 0.9742519717,
+    97.42519717, 95.60608736, 98.67675554, 97.62574652, 99.09701658,
     # 500x
-    0.9882678066, 0.971674132, 0.9808647101, 0.9341421427, 0.6548925822
+    65.48925822, 93.41421427, 98.08647101, 97.1674132, 98.82678066
   ),
   variant_count = c(
     # SNVs counts
-    424814, 1863491, 679164, 2203321, 372145,
+    372145, 2203321, 679164, 1863491, 424814,
     # Same counts for 500x
-    424814, 1863491, 679164, 2203321, 372145
+    372145, 2203321, 679164, 1863491, 424814
   )
 )
 
 # Set the correct factor levels to ensure proper ordering
 data$expectedVAFrange <- factor(data$expectedVAFrange,
-                                levels = c("VAF>=10", "5<=VAF<10", "2<=VAF<5", "1<=VAF<2", "VAF<1"))
+                                levels = c("VAF<0.01", "0.01≤VAF<0.02", "0.02≤VAF<0.05", "0.05≤VAF<0.10", "VAF≥0.10"))
 
 # Create an x-axis with sample counts included for all points
 data$x_label <- paste0(data$expectedVAFrange, "\n(n=", data$variant_count, ")")
@@ -62,7 +62,7 @@ vaf_plot <- ggplot(data, aes(x = x_label, y = recall_rate,
   geom_line(size = 1.2) +
   geom_point(size = 3) +
   # Add text labels for recall rates
-  geom_text(aes(label = sprintf("%.4f", recall_rate), 
+  geom_text(aes(label = sprintf("%.2f%%", recall_rate), 
                 vjust = ifelse(coverage == "4000x", -1.8, 2.5)), 
             hjust = 0.5, 
             size = 4) +
@@ -71,15 +71,16 @@ vaf_plot <- ggplot(data, aes(x = x_label, y = recall_rate,
                                 "500x" = "#0077BB")) +
   # Y-axis settings
   scale_y_continuous(
-    limits = c(0.6, 1),  # Adjusted to focus on the range of data
-    breaks = seq(0.6, 1, 0.1),
+    limits = c(60, 100),  # Convert to percentage range
+    breaks = seq(60, 100, 10),  # Convert breaks to percentages
+    labels = function(x) paste0(x, "%"),  # Add % symbol
     expand = expansion(mult = c(0, 0.1))
   ) +
   # Labels
   labs(
-    title = "SNV Recall Per Expected VAF Ranges",
+    title = "SNV Validation Rate per Truth Set VAF",
     x = "Expected VAF",
-    y = "Recall Rate",
+    y = "Recall Rate (%)",
     color = "Coverage"
   ) +
   # Custom theme settings (maintained from original)
@@ -98,6 +99,7 @@ vaf_plot <- ggplot(data, aes(x = x_label, y = recall_rate,
     plot.background = element_rect(fill = "white", color = NA),
     panel.background = element_rect(fill = "white", color = NA)
   )
+
 
 ########################################## Fig2C ##########################################
 
