@@ -166,5 +166,5 @@ validation_plot <- ggplot(melted_data, aes(x = Variant_Type, y = Value)) +
   )
 
 ########################################## Fig2D & Fig2E ##########################################
-# Written in the separate python script
+# In separate Python scripts under the current directory.
 
