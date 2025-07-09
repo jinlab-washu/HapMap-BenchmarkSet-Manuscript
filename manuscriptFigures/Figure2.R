@@ -31,12 +31,12 @@ data <- data.frame(
   coverage = factor(c(
     rep("4000x", 5),
     rep("500x", 5)
-  ), levels = c("4000x", "500x")),
+  ), levels = c("500x", "4000x")),
   recall_rate = c(
     # 4000x
-    97.42519717, 95.60608736, 98.67675554, 97.62574652, 99.09701658,
+    0.9742519717, 0.9560608736, 0.9867675554, 0.9762574652, 0.9909701658,
     # 500x
-    65.48925822, 93.41421427, 98.08647101, 97.1674132, 98.82678066
+    0.6548925822, 0.9341421427, 0.9808647101, 0.971674132, 0.9882678066
   ),
   variant_count = c(
     # SNVs counts
@@ -62,25 +62,24 @@ vaf_plot <- ggplot(data, aes(x = x_label, y = recall_rate,
   geom_line(size = 1.2) +
   geom_point(size = 3) +
   # Add text labels for recall rates
-  geom_text(aes(label = sprintf("%.2f%%", recall_rate), 
+  geom_text(aes(label = sprintf("%.4f", recall_rate), 
                 vjust = ifelse(coverage == "4000x", -1.8, 2.5)), 
             hjust = 0.5, 
             size = 4) +
   # Set specific colors for 4000x and 500x
-  scale_color_manual(values = c("4000x" = "#EE3377", 
-                                "500x" = "#0077BB")) +
+  scale_color_manual(values = c("500x" = "#0077BB", "4000x" = "#EE3377")) +
   # Y-axis settings
   scale_y_continuous(
-    limits = c(60, 100),  # Convert to percentage range
-    breaks = seq(60, 100, 10),  # Convert breaks to percentages
-    labels = function(x) paste0(x, "%"),  # Add % symbol
+    limits = c(0.6, 1.0),  # Convert to decimal range
+    breaks = seq(0.6, 1.0, 0.1),  # Convert breaks to decimals
+    labels = function(x) sprintf("%.1f", x),  # Format as decimal
     expand = expansion(mult = c(0, 0.1))
   ) +
   # Labels
   labs(
     title = "SNV Validation Rate per Truth Set VAF",
     x = "Expected VAF",
-    y = "Recall Rate (%)",
+    y = "Recall Rate",
     color = "Coverage"
   ) +
   # Custom theme settings (maintained from original)
