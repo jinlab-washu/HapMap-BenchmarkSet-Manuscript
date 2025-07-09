@@ -165,6 +165,6 @@ validation_plot <- ggplot(melted_data, aes(x = Variant_Type, y = Value)) +
     panel.background = element_rect(fill = "white", color = NA)
   )
 
-########################################## Fig2D ##########################################
-
+########################################## Fig2D & Fig2E ##########################################
+# Written in the separate python script
 
