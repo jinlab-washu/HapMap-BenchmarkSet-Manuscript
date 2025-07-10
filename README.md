@@ -11,8 +11,6 @@ This repository holds scripts for all analysis done for [this paper](), includin
     ├── [Dipcall]
     └── regionRescue/
 ├── manuscriptFigures/
-├── modelFitting/
-    └── [code for model fitting]
 ├── simulations/
     ├── shortReadSimulation/
     └── longReadSimulation/
@@ -35,10 +33,6 @@ This repository goes over the methodology for validating SNVs, Indels, and SVs u
 ## Variant Allele Frequency Evaluation
 
 This repository goes over all the code used to validate the VAF of the variants in the truthset. See READMEs in subdirectories for more information.
-
-## Model Fitting
-
-This repository records code used for fitting different prediction models.
 
 ## Manuscript Figure Generation
 
