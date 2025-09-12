@@ -8,7 +8,6 @@ This repository holds scripts for all analysis done for [this paper](), includin
     ├── IndelsAndSVs/
     └── SNVs/
 ├── assemblyBasedValidation/
-    ├── [Dipcall]
     └── regionRescue/
 ├── manuscriptFigures/
 ├── simulations/
