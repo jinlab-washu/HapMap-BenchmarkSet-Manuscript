@@ -51,10 +51,10 @@ class SNV:
         return self.ALT in other.ALT
               
     
-def makeSNVsFromTruthset(file):
+def makeSNVsFromBenchmarkset(file):
     """
     Input:
-        file: the vcf of the truthset variants
+        file: the vcf of the benchmarkset variants
         
     Output:
         SNVList: A list of SNVs reformated to be more workable
@@ -171,44 +171,44 @@ def makeChromGWAS(gwas_data, outfile, cuttoff):
     plt.savefig(outfile, dpi=300, format='svg')
 
 
-def AFChecker(truthSet, mPileup):
+def AFChecker(benchmarkSet, mPileup):
     """
     Input:
-        truthSet: list of truthset variants
+        benchmarkSet: list of benchmarkset variants
         outfile: list of pileup variants
     """
     i=0
     counter_1=0
     total=0
     chromcount=0
-    cuttoff=0.05/len(truthSet)
+    cuttoff=0.05/len(benchmarkSet)
     columnNames=["CHR", "POS", "Pvalue1"]
     gwas_overall_data = pd.DataFrame(columns=columnNames)
     gwas_chrom_data = pd.DataFrame(columns=columnNames)
     currentchrom="chr1"
     print(currentchrom)
-    for i in range (len(truthSet)):
-        truthvar=truthSet[i]
+    for i in range (len(benchmarkSet)):
+        benchmarkvar=benchmarkSet[i]
         pilevar=mPileup[i]
-        if truthvar.ALT.count==0:
+        if benchmarkvar.ALT.count==0:
             continue
-        if currentchrom!=f"chr{truthvar.chrom}":
+        if currentchrom!=f"chr{benchmarkvar.chrom}":
             makeChromGWAS(gwas_chrom_data, f"/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/SNV/AFPlots/GWAS/AFGWAS{currentchrom}.svg", 0.05/chromcount)
-            currentchrom=f"chr{truthvar.chrom}"
+            currentchrom=f"chr{benchmarkvar.chrom}"
             print(currentchrom)
             chromcount=0
             gwas_chrom_data = pd.DataFrame(columns=columnNames)
-        p=truthvar.ALT.count
+        p=benchmarkvar.ALT.count
         total+=1
         chromcount+=1
         for alt in pilevar.ALT:
-            if alt.base==truthvar.ALT.base:
+            if alt.base==benchmarkvar.ALT.base:
                 n=alt.depth
                 p_value = binomtest(alt.count, n, p, alternative='two-sided').pvalue
                 if p_value<=cuttoff:
                     counter_1+=1
-                gwas_overall_data.loc[len(gwas_overall_data)] = [truthvar.chrom, truthvar.POS, p_value]
-                gwas_chrom_data.loc[len(gwas_chrom_data)] = [truthvar.chrom, truthvar.POS, p_value]
+                gwas_overall_data.loc[len(gwas_overall_data)] = [benchmarkvar.chrom, benchmarkvar.POS, p_value]
+                gwas_chrom_data.loc[len(gwas_chrom_data)] = [benchmarkvar.chrom, benchmarkvar.POS, p_value]
 
     print(f"total variants: {total}")
     print(f"validated by binom method: {total-counter_1} or {(total-counter_1)/total}")
@@ -217,15 +217,15 @@ def main():
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-t', '--truthSet', required=True, help='truthset SNVs')
+    parser.add_argument('-t', '--benchmarkSet', required=True, help='benchmarkset SNVs')
     parser.add_argument('-p', '--pileup', required=True, help='mPileUp Output')
     args = parser.parse_args()
-    print("making truth set")
-    TruthSetSNVS=makeSNVsFromTruthset(args.truthSet)
+    print("making benchmark set")
+    BenchmarkSetSNVS=makeSNVsFromBenchmarkset(args.benchmarkSet)
     print("making mPileUp set")
     PileUpSNVS=makeSNVsFromPileup(args.pileup)
     print("comparing Results")
-    AFChecker(TruthSetSNVS, PileUpSNVS)
+    AFChecker(BenchmarkSetSNVS, PileUpSNVS)
 
 if __name__ == '__main__':
     main()

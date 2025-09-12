@@ -455,17 +455,17 @@ data <- read.table("summary_umap_composition.txt", header = TRUE, sep = "\t")
 data <- data %>%
   mutate(entire_genome_excl = c(entire_genome_bp[1], diff(entire_genome_bp)),
          omim_gene_excl = c(omim_gene_bp[1], diff(omim_gene_bp)),
-         truthset_snv_excl = c(truthset_snv_bp[1], diff(truthset_snv_bp))) %>%
-  select(kmer, entire_genome_excl, omim_gene_excl, truthset_snv_excl)
+         benchmarkset_snv_excl = c(benchmarkset_snv_bp[1], diff(benchmarkset_snv_bp))) %>%
+  select(kmer, entire_genome_excl, omim_gene_excl, benchmarkset_snv_excl)
 
 # Convert the data to long format for plotting
 data_long <- data %>%
-  pivot_longer(cols = starts_with("entire_genome_excl"):starts_with("truthset_snv_excl"),
+  pivot_longer(cols = starts_with("entire_genome_excl"):starts_with("benchmarkset_snv_excl"),
                names_to = "category",
                values_to = "bp") %>%
   mutate(category = gsub("_excl", "", category)) %>%
-  mutate(category = factor(category, levels = c("entire_genome", "omim_gene", "truthset_snv"),
-                           labels = c("Entire genome\n(n=3.1G)", "Omim gene \n(n=4,978)", "Truthset snv\n(n=5.6M)")))
+  mutate(category = factor(category, levels = c("entire_genome", "omim_gene", "benchmarkset_snv"),
+                           labels = c("Entire genome\n(n=3.1G)", "Omim gene \n(n=4,978)", "Benchmarkset snv\n(n=5.6M)")))
 
 # Define the order for kmer
 data_long <- data_long %>%

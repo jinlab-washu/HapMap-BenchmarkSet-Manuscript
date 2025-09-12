@@ -1,6 +1,6 @@
 # Indel and SV Alignment Validation
 
-This repository goes over the methodology for validating the Indels and SVs within our somatic variant truthset
+This repository goes over the methodology for validating the Indels and SVs within our somatic variant benchmarkset
 
 ## File Structure
 ```markdown
@@ -60,9 +60,9 @@ where ```$CigarCalls_directory_output``` is ```$out_directory\$run_name``` and `
 
 This will produce the file ```$output_directory\$run_name\${output_vcf_name}_sorted.vcf``` as the final VCF output for the entire pipeline.
 
-## Validating the truthset
+## Validating the benchmarkset
 
-To use ```truvari``` to validate the truthset, run the following steps:
+To use ```truvari``` to validate the benchmarkset, run the following steps:
 
 1. Make sure you are in the correct directory
 ```bash
@@ -77,5 +77,5 @@ cd $out_directory\$run_name
 
 Exampe run for SVs:
 ```bash
-truvari bench -b truthset.vcf.gz -c cigarcalls.vcf.gz -f referenceFasta.fna --bSAMple HapMap_Mixture --cSAMple syndip -s 50 -S 50 --pick multi --pctseq 0.7 --pctsize 0.7 --includebed benchmarkRegions.bed -o SV_Validation_Truvari
+truvari bench -b benchmarkset.vcf.gz -c cigarcalls.vcf.gz -f referenceFasta.fna --bSAMple HapMap_Mixture --cSAMple syndip -s 50 -S 50 --pick multi --pctseq 0.7 --pctsize 0.7 --includebed benchmarkRegions.bed -o SV_Validation_Truvari
 ```

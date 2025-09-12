@@ -51,10 +51,10 @@ class SNV:
         return self.ALT in other.ALT
               
     
-def makeSNVsFromTruthset(file):
+def makeSNVsFromBenchmarkset(file):
     """
     Input:
-        file: the vcf of the truthset variants
+        file: the vcf of the benchmarkset variants
         
     Output:
         SNVList: A list of SNVs reformated to be more workable
@@ -157,17 +157,17 @@ def checkBed (var, bedList):
                         return True
     return False
 
-def AFChecker(truthSet, mPileup, bedList):
+def AFChecker(benchmarkSet, mPileup, bedList):
     """
     Input:
-        truthSet: the truthset SNVs
+        benchmarkSet: the benchmarkset SNVs
         mPileup: the pileup SNVs
         bedList: a list of bed files for the disotrion regions in each haplotype
     """    
     i=0
     counter=0
     total=0
-    cuttoff=0.05/len(truthSet)
+    cuttoff=0.05/len(benchmarkSet)
     toWrite=[]
 
     print(f"cutoff: {cuttoff}")
@@ -179,20 +179,20 @@ def AFChecker(truthSet, mPileup, bedList):
     validatedNoDist=0
     unvalidatedNoDist=0
 
-    for i in range (len(truthSet)):
-        truthvar=truthSet[i]
+    for i in range (len(benchmarkSet)):
+        benchmarkvar=benchmarkSet[i]
         pilevar=mPileup[i]
-        if truthvar.ALT.count==0:
+        if benchmarkvar.ALT.count==0:
             continue
-        if currentchrom!=f"chr{truthvar.chrom}":
-            currentchrom=f"chr{truthvar.chrom}"
+        if currentchrom!=f"chr{benchmarkvar.chrom}":
+            currentchrom=f"chr{benchmarkvar.chrom}"
             print(currentchrom)
             break
-        p=truthvar.ALT.count
+        p=benchmarkvar.ALT.count
         total+=1
-        dist=checkBed(truthvar, bedList)
+        dist=checkBed(benchmarkvar, bedList)
         for alt in pilevar.ALT:
-            if alt.base==truthvar.ALT.base:
+            if alt.base==benchmarkvar.ALT.base:
                 n=alt.depth
                 p_value = binomtest(alt.count, n, p, alternative='two-sided').pvalue
                 if p_value<=cuttoff:
@@ -224,7 +224,7 @@ def main():
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-t', '--truthSet', required=True, help='truthset SNVs')
+    parser.add_argument('-t', '--benchmarkSet', required=True, help='benchmarkset SNVs')
     parser.add_argument('-p', '--pileup', required=True, help='mPileUp Output')
     args = parser.parse_args()
 
@@ -242,12 +242,12 @@ def main():
     HG02622_Mat_Dist="/storage1/fs1/jin810/Active/testing/Ruttenberg/SMAHT/References/Blackout/Distortion/BlackoutOptions/DistByCellLine/HG02622_Mat_dist.bed"
     bedList=[HG002_Mat_Dist, HG002_Pat_Dist, HG00438_Mat_Dist, HG00438_Pat_Dist, HG005_Mat_Dist, HG005_Pat_Dist, HG02257_Mat_Dist, HG02257_Pat_Dist, HG02486_Mat_Dist, HG02486_Pat_Dist, HG02622_Mat_Dist, HG02622_Pat_Dist]
 
-    print("making truth set")
-    TruthSetSNVS=makeSNVsFromTruthset(args.truthSet)
+    print("making benchmark set")
+    BenchmarkSetSNVS=makeSNVsFromBenchmarkset(args.benchmarkSet)
     print("making mPileUp set")
     PileUpSNVS=makeSNVsFromPileup(args.pileup)
     print("comparing Results")
-    AFChecker(TruthSetSNVS, PileUpSNVS, bedList)
+    AFChecker(BenchmarkSetSNVS, PileUpSNVS, bedList)
 
     
 

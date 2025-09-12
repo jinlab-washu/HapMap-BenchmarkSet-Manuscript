@@ -36,7 +36,7 @@ outfile="${outdir}/${3}_chr${chr}.vcf"
 if [ "$numberArguments" -eq 5 ]; then
   bcftools mpileup -a FORMAT/AD,FORMAT/DP --no-BAQ -d 20000 -q 0 -Q 0 -f $2 -G $outdir/readgroup.txt -Ov -o $outfile -R chr${chr} $1
 elif [ "$numberArguments" -eq 6 ]; then
-  bcftools view -r chr${chr} $6 -o $outdir/truthsetByChrom/chr${chr}.vcf -O v
+  bcftools view -r chr${chr} $6 -o $outdir/benchmarksetByChrom/chr${chr}.vcf -O v
   
   if [ -e "$1" ]; then
     echo "File exists."
@@ -44,7 +44,7 @@ elif [ "$numberArguments" -eq 6 ]; then
       echo "File does not exist."
   fi
   
-  bcftools mpileup -a FORMAT/AD,FORMAT/DP --no-BAQ -d 20000 -q 0 -Q 0 -f $2 -G $outdir/readgroup.txt -Ov -o $outfile -R $outdir/truthsetByChrom/chr${chr}.vcf $1
+  bcftools mpileup -a FORMAT/AD,FORMAT/DP --no-BAQ -d 20000 -q 0 -Q 0 -f $2 -G $outdir/readgroup.txt -Ov -o $outfile -R $outdir/benchmarksetByChrom/chr${chr}.vcf $1
   echo "test3"
   
 fi

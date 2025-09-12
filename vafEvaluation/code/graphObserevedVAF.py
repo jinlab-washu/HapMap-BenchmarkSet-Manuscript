@@ -42,10 +42,10 @@ class SNV:
             return False
         return self.ALT in other.ALT
     
-def makeSNVs(truthset, Calls):
+def makeSNVs(benchmarkset, Calls):
     """
     Input:
-        truthset: the vcf of the truthset variants
+        benchmarkset: the vcf of the benchmarkset variants
         Calls: the vcf of the mpileup variants
         
     Output:
@@ -53,9 +53,9 @@ def makeSNVs(truthset, Calls):
     """
     OutDict={}
 
-    with open(truthset, 'r') as truthfile:
-        linesTruth = [l for l in truthfile if not l.startswith('#') and not l.startswith('"##')]
-    for line in linesTruth:
+    with open(benchmarkset, 'r') as benchmarkfile:
+        linesBenchmark = [l for l in benchmarkfile if not l.startswith('#') and not l.startswith('"##')]
+    for line in linesBenchmark:
         split=line.split()
         chrom=split[0].split('r')[1]
         if chrom=='X':
@@ -158,11 +158,11 @@ def AFChecker(SNVs, outfile):
             obs.append(0)
             continue
         
-        truthvar=SNVs[key][0]
+        benchmarkvar=SNVs[key][0]
         pilevar=SNVs[key][1]
         
         for alt in pilevar.ALT:
-            if alt.base==truthvar.ALT.base:
+            if alt.base==benchmarkvar.ALT.base:
                 obs.append(alt.count/alt.depth)
     makeHist(obs, outfile)
 
@@ -170,12 +170,12 @@ def main():
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-t', '--truthSet', required=True, help='truthset SNVs')
+    parser.add_argument('-t', '--benchmarkSet', required=True, help='benchmarkset SNVs')
     parser.add_argument('-p', '--pileup', required=True, help='mPileUp Output')
     parser.add_argument('-o', '--Out', required=True, help='outputfile')
     args = parser.parse_args()
     print("making SNVs")
-    SNVs=makeSNVs(args.truthSet, args.pileup)
+    SNVs=makeSNVs(args.benchmarkSet, args.pileup)
     print(len(SNVs))
     print("comparing Results")
     AFChecker(SNVs, args.Out)

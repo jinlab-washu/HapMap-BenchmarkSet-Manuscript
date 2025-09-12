@@ -22,7 +22,7 @@ mkdir -p $outdir
 #if vcf provided, make dir to store vcf by chromosome
 if [ "$numberArguments" -eq 4 ]
 then
-    mkdir $outdir/truthsetByChrom
+    mkdir $outdir/benchmarksetByChrom
 fi
 
 file=readgroup.txt

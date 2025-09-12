@@ -1,6 +1,6 @@
 # SNV Alignment Validation
 
-This repository goes over the methodology for validating the SNVs within our somatic variant truthset.
+This repository goes over the methodology for validating the SNVs within our somatic variant benchmarkset.
 
 ## File Structure
 ```markdown
@@ -18,7 +18,7 @@ This repository goes over the methodology for validating the SNVs within our som
 * tabix
 
 ## Overall Pipeline
-The basis of the pipeline is to run ```bcftools mPileup``` on a BAM file to get a list of all variants present within the BAM file. We then use ```bcftools isec``` to compare the pileup result with the truthset, giving us our validation rate.
+The basis of the pipeline is to run ```bcftools mPileup``` on a BAM file to get a list of all variants present within the BAM file. We then use ```bcftools isec``` to compare the pileup result with the benchmarkset, giving us our validation rate.
 
 ### runMpileup.sh
 This code sets up all the directories and files needed for the mpileup run. To save time and resources we run mpilelup on each chromosome seperatly, so this file is used to loop over all the chromosomes.
@@ -59,9 +59,9 @@ where ```$mpileup_directory_output``` is ```$output_directory\$run_name```
 
 This will produce the file ```$output_directory\$run_name\${run_name}_sorted.vcf``` as the final VCF for the entire mpileup pipeline.
 
-## Validating the truthset
+## Validating the benchmarkset
 
-To run ```bcftools isec``` to validate the truthset run the following steps
+To run ```bcftools isec``` to validate the benchmarkset run the following steps
 
 1. Make sure you are in the correct directory:
 ```bash
@@ -71,10 +71,10 @@ cd $output_directory\$run_name
 ```bash
 bcftools norm -m - ${run_name}_sorted.vcf -Ov -o ${run_name}_sorted.split.vcf
 ```
-3. Use ```bcftools isec``` to compare the variants in the BAM file to the truthset:
+3. Use ```bcftools isec``` to compare the variants in the BAM file to the benchmarkset:
 ```bash
-bcftools isec -p SnvTruthsetComparison $truthset_vcf ${run_name}_sorted.split.vcf
+bcftools isec -p SnvBenchmarksetComparison $benchmarkset_vcf ${run_name}_sorted.split.vcf
 ```
-This will create a directory ```SnvTruthsetComparison``` to store the comparison.\
-The recall will then be the number of variants in ```SnvTruthsetComparison/0002.vcf``` divided by number of variants in the truthset
+This will create a directory ```SnvBenchmarksetComparison``` to store the comparison.\
+The recall will then be the number of variants in ```SnvBenchmarksetComparison/0002.vcf``` divided by number of variants in the benchmarkset
 

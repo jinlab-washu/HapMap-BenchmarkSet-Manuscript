@@ -11,11 +11,11 @@ numberArguments=$#
 if [ "$numberArguments" -ne 7 ] && [ "$numberArguments" -ne 8 ]
 then
     echo "Incorrect number of arguments"
-    echo "Correct usage: bash runWGS.sh {truthset VCF} {Bam File} {Reference File} {if LRS or Not} {indels or not} {wkdir} {outname} {chrom}"
+    echo "Correct usage: bash runWGS.sh {benchmarkset VCF} {Bam File} {Reference File} {if LRS or Not} {indels or not} {wkdir} {outname} {chrom}"
     exit 53
 fi
 
-truth=$1
+benchmark=$1
 bam=$2
 ref=$3
 LRS=$4
@@ -38,8 +38,8 @@ fi
 echo "making sam files"
 
 chrom=$8
-bcftools view -r $chrom $truth -o "$wkdir/truthsets/$chrom.vcf" -O v
-truth="$wkdir/truthsets/$chrom.vcf"
+bcftools view -r $chrom $benchmark -o "$wkdir/benchmarksets/$chrom.vcf" -O v
+benchmark="$wkdir/benchmarksets/$chrom.vcf"
 outsam="$wkdir/samfiles/$chrom"
 mkdir $outsam
 
@@ -56,7 +56,7 @@ do
   lower=`echo "$pos 50" | awk '{sum = $1 - $2; print sum}'`
   upper=`echo "$pos 50 $length" | awk '{sum = $1 + $2 + $3; print sum}'`
   samtools view -@ 16 $bam "$chrom:$lower-$upper" > "${outsam}/${chrom}_${pos}.sam"
-done < "$truth"
+done < "$benchmark"
 
 echo "Running Pileup"
 /usr/bin/python3 /storage1/fs1/jin810/Active/testing/Ruttenberg/Code/FinalSMAHTCode/CigarCaller/CigarCaller.py -s $outsam -r $ref -l $LRS -o $outfile -i $indels

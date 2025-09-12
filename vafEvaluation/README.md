@@ -1,6 +1,6 @@
 # Variant Allele Frqunecy Validation Code
 
-This repository goes over all the code used to validate the VAF of the variants in the truthset.
+This repository goes over all the code used to validate the VAF of the variants in the benchmarkset.
 
 ## File Structure
 ```markdown
@@ -15,8 +15,8 @@ This repository goes over all the code used to validate the VAF of the variants 
 ## AfGwasPlot.py
 
 ### Summary
-This python script produces the top image in figure 2e. In summary, the code takes in a VCF of the truthset, and the pileup of those variant.\
-Then, for each variant in the truthset, it identifies the expected allele frequnecy and observed read depth at the position. Using this is creates a binomial model for the observed allele frequnecy and find the probability of the actual observed allele frequency being observed. It then 
+This python script produces the top image in figure 2e. In summary, the code takes in a VCF of the benchmarkset, and the pileup of those variant.\
+Then, for each variant in the benchmarkset, it identifies the expected allele frequnecy and observed read depth at the position. Using this is creates a binomial model for the observed allele frequnecy and find the probability of the actual observed allele frequency being observed. It then 
 plots the values in a large GWAS-like plot.
 
 ### Software requirments
@@ -33,9 +33,9 @@ plots the values in a large GWAS-like plot.
 ### Execution
 To execute the code run the following command
 ```bash
-python AfGwasPlot.py -t $truthset_vcf -p $mpileup_vcf
+python AfGwasPlot.py -t $benchmarkset_vcf -p $mpileup_vcf
 ```
-where ```truthset_vcf``` is a VCF of the truthset variants and ```mpileup_vcf``` is a VCF of the mpileup output for the truthset variants.
+where ```benchmarkset_vcf``` is a VCF of the benchmarkset variants and ```mpileup_vcf``` is a VCF of the mpileup output for the benchmarkset variants.
 
 ## expectedVsObservedVafGraph.py
 
@@ -52,9 +52,9 @@ This python script graphs the difference between the expected allele frequency a
 ### Execution
 To execute the code run the following command
 ```bash
-python expectedVsObservedVafGraph.py -t $truthset_vcf -p $mpileup_vcf -o $output_directroy
+python expectedVsObservedVafGraph.py -t $benchmarkset_vcf -p $mpileup_vcf -o $output_directroy
 ```
-where ```truthset_vcf``` is a VCF of the truthset variants, ```mpileup_vcf``` is a VCF of the mpileup output for the truthset variants, and ```output_directroy``` is the output directory to store the graphs.
+where ```benchmarkset_vcf``` is a VCF of the benchmarkset variants, ```mpileup_vcf``` is a VCF of the mpileup output for the benchmarkset variants, and ```output_directroy``` is the output directory to store the graphs.
 
 ## graphObserevedVAF.py
 
@@ -70,14 +70,14 @@ This python script graphs the observed allele frequency of a group of variants i
 ### Execution
 To execute the code run the following command
 ```bash
-python graphObserevedVAF.py -t $truthset_vcf -p $mpileup_vcf -o $output_file
+python graphObserevedVAF.py -t $benchmarkset_vcf -p $mpileup_vcf -o $output_file
 ```
-where ```truthset_vcf``` is a VCF of the truthset variants, ```mpileup_vcf``` is a VCF of the mpileup output for the truthset variants, and ```output_file``` is the path to the file to store the historgram.
+where ```benchmarkset_vcf``` is a VCF of the benchmarkset variants, ```mpileup_vcf``` is a VCF of the mpileup output for the benchmarkset variants, and ```output_file``` is the path to the file to store the historgram.
 
 ## percentiles.py
 
 ### Summary
-This python script idenfies the lower and upper observed VAF bounds to captrues a given percent of the variants in the truth set. So if 95% is inputed, the code finds the 2.5 percentile VAF and the 97.5 percentile VAF.
+This python script idenfies the lower and upper observed VAF bounds to captrues a given percent of the variants in the benchmark set. So if 95% is inputed, the code finds the 2.5 percentile VAF and the 97.5 percentile VAF.
 
 ### Software requirments
 * python3.8 with the following packages
@@ -88,18 +88,18 @@ This python script idenfies the lower and upper observed VAF bounds to captrues 
 ### Execution
 To execute the code run the following command
 ```bash
-python percentiles.py -t $truthset_vcf -p $mpileup_vcf -v $VAF --percentile $percentile
+python percentiles.py -t $benchmarkset_vcf -p $mpileup_vcf -v $VAF --percentile $percentile
 ```
 where 
-* ```truthset_vcf```: a VCF of the truthset variants
-* ```mpileup_vcf```: a VCF of the mpileup output for the truthset variants
+* ```benchmarkset_vcf```: a VCF of the benchmarkset variants
+* ```mpileup_vcf```: a VCF of the mpileup output for the benchmarkset variants
 * ```VAF``` an optional float of what VAF to consider. If provided will only look at variants with the given expected VAF
 * ```percentile```: what percentile to spand (default: 95)
   
 ## validateSNVsByVAF.py
 
 ### Summary
-This python script looks at all the SNVs validated by alignment based methodologies and find how many of them have an observed VAF close to the expected VAF, as defined by a binomial distibution. For each variant in the truthset, it identifies the expected allele frequnecy and observed read depth at the position. Using this it creates a binomial model for the observed allele frequnecy and find the probability of the actual observed allele fruency being observed. For each variant with a small enough probability (0.05/# of variants) it is considered an unvalidated VAF, otherwise it is validated.
+This python script looks at all the SNVs validated by alignment based methodologies and find how many of them have an observed VAF close to the expected VAF, as defined by a binomial distibution. For each variant in the benchmarkset, it identifies the expected allele frequnecy and observed read depth at the position. Using this it creates a binomial model for the observed allele frequnecy and find the probability of the actual observed allele fruency being observed. For each variant with a small enough probability (0.05/# of variants) it is considered an unvalidated VAF, otherwise it is validated.
 
 ### Software requirments
 * python3.8 with the following packages
@@ -115,6 +115,6 @@ This python script looks at all the SNVs validated by alignment based methodolog
 ### Execution
 To execute the code run the following command
 ```bash
-python validateSNVsByVAF.py -t $truthset_vcf -p $mpileup_vcf
+python validateSNVsByVAF.py -t $benchmarkset_vcf -p $mpileup_vcf
 ```
-where ```truthset_vcf``` is a VCF of the truthset variants and ```mpileup_vcf``` is a VCF of the mpileup output for the truthset variants.
+where ```benchmarkset_vcf``` is a VCF of the benchmarkset variants and ```mpileup_vcf``` is a VCF of the mpileup output for the benchmarkset variants.

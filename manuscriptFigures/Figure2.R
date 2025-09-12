@@ -77,7 +77,7 @@ vaf_plot <- ggplot(data, aes(x = x_label, y = recall_rate,
   ) +
   # Labels
   labs(
-    title = "SNV Validation Rate per Truth Set VAF",
+    title = "SNV Validation Rate per Benchmark Set VAF",
     x = "Expected VAF",
     y = "Recall Rate",
     color = "Coverage"

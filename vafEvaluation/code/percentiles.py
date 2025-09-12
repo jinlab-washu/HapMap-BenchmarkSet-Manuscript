@@ -29,10 +29,10 @@ class SNV:
         self.line=line
 
 
-def makeSNVs(truthset, Calls):
+def makeSNVs(benchmarkset, Calls):
     """
     Input:
-        truthset: the vcf of the truthset variants
+        benchmarkset: the vcf of the benchmarkset variants
         Calls: the vcf of the mpileup variants
         
     Output:
@@ -40,9 +40,9 @@ def makeSNVs(truthset, Calls):
     """
     OutDict={}
 
-    with open(truthset, 'r') as truthfile:
-        linesTruth = [l for l in truthfile if not l.startswith('#') and not l.startswith('"##')]
-    for line in linesTruth:
+    with open(benchmarkset, 'r') as benchmarkfile:
+        linesBenchmark = [l for l in benchmarkfile if not l.startswith('#') and not l.startswith('"##')]
+    for line in linesBenchmark:
         split=line.split()
         chrom=split[0].split('r')[1]
         if chrom=='M':
@@ -109,9 +109,9 @@ def AFChecker(SNVs, lower, upper, VAF):
     obs=[]
     for key in SNVs:
 
-        truthvar=SNVs[key][0]
+        benchmarkvar=SNVs[key][0]
         if VAF != None:
-            if truthvar.ALT.count != VAF:
+            if benchmarkvar.ALT.count != VAF:
                 continue
 
         if len(SNVs[key])==1:
@@ -127,13 +127,13 @@ def main():
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-t', '--truthSet', required=True, help='truthset SNVs')
+    parser.add_argument('-t', '--benchmarkSet', required=True, help='benchmarkset SNVs')
     parser.add_argument('-p', '--pileup', required=True, help='mPileUp Output')
     parser.add_argument('-v', '--vaf', type=float, required=False, help='vaf of variants to look at')
     parser.add_argument('--percentile', type=int, required=False, default=95, help='CI size')
     args = parser.parse_args()
     print("making SNVs")
-    SNVs=makeSNVs(args.truthSet, args.pileup)
+    SNVs=makeSNVs(args.benchmarkSet, args.pileup)
     lower=(100-args.percentile)/2
     upper=100-lower
     print("comparing Results")

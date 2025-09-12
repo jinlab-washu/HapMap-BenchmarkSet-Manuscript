@@ -1,6 +1,6 @@
-# HapMap-TruthSet-Manuscript
+# HapMap-BenchmarkSet-Manuscript
 
-This repository holds scripts for all analysis done for [this paper](), including truth set validation, model fitting, and figure generation. More information about can be found in Methods section of our paper. 
+This repository holds scripts for all analysis done for [this paper](), including benchmark set validation, model fitting, and figure generation. More information about can be found in Methods section of our paper. 
 
 ## File Structure
 ```markdown
@@ -20,11 +20,11 @@ This repository holds scripts for all analysis done for [this paper](), includin
 
 ## Short and Long Read Simulation
 
-This repository denotes code used for generating short- and long-read sequencing data that were used in subsequent truth set validation steps.
+This repository denotes code used for generating short- and long-read sequencing data that were used in subsequent benchmark set validation steps.
 
 ## Alignment Based Validation
 
-This repository goes over the methodology for validating the SNVs, Indels, and SVs within our somatic variant truthset using an alignment based approach. See READMEs in subdirectories for more information.
+This repository goes over the methodology for validating the SNVs, Indels, and SVs within our somatic variant benchmarkset using an alignment based approach. See READMEs in subdirectories for more information.
 
 ## Assembly Based Validation
 
@@ -32,7 +32,7 @@ This repository goes over the methodology for validating SNVs, Indels, and SVs u
 
 ## Variant Allele Frequency Evaluation
 
-This repository goes over all the code used to validate the VAF of the variants in the truthset. See READMEs in subdirectories for more information.
+This repository goes over all the code used to validate the VAF of the variants in the benchmarkset. See READMEs in subdirectories for more information.
 
 ## Manuscript Figure Generation
 

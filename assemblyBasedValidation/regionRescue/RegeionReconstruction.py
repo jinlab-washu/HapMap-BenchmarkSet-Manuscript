@@ -102,7 +102,7 @@ def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, d
         outpath: output directory
         dist: minimum distance between variants in the graph/dipcall. Used to idetfy breakpoints for region reconstruction
     """
-    truthList=[]
+    benchmarkList=[]
     FalseList=[]
     region=[]
     MissedVCF = pysam.VariantFile(Negitve)
@@ -144,7 +144,7 @@ def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, d
             # Check if the position, reference, and alternate allele match
                 if record.chrom == var.chrom and record.pos == var.pos and record.ref == var.ref and var.alts[0] in record.alts[0]:
                     #print(f"exact match for {var}")
-                    truthList.append(var)
+                    benchmarkList.append(var)
                     i+=1
                     break
             beforeRegion=cleanRegions[j]
@@ -155,12 +155,12 @@ def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, d
                 start=beforeRegion[1]-100
                 end=AfterRegion[0]+100
                 if compareRegions(reference[chrom], chrom, start, end, GraphVCF, DipVCF, graphSample, dipSample):
-                    truthList.append(var)
+                    benchmarkList.append(var)
                 else:
                     FalseList.append(var)
                 i+=1
     #print("validated Variants")
-    #print(len(truthList))
+    #print(len(benchmarkList))
     #print("unvalidated Variants")
     #print(len(FalseList))
     FalsePath=outpath + "/fn.vcf"
@@ -172,7 +172,7 @@ def splitVars(Negitve, Graph, Dip, reference, graphSample, dipSample, outpath, d
     f.close()
     t=open(TruePath, "w")
     t.write(str(header))
-    for record in truthList:
+    for record in benchmarkList:
         t.write(str(record))
     t.close()
 
