@@ -21,10 +21,7 @@ set -euo pipefail
 #   WORK_ROOT=per_gene_vcfeval_runs_final
 #   CONCURRENCY=300
 #
-# LSF/Docker requirements:
-#   - bsub
-#   - bparams
-#   - Docker image: blcdsdockerregistry/rtg-tools:3.12
+# Used docker: blcdsdockerregistry/rtg-tools:3.12
 #
 # Author: Nahyun Kong
 # Contact: nahyun@wustl.edu
