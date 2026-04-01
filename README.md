@@ -35,7 +35,7 @@ This repository goes over all the code used to validate the VAF of the variants 
 
 ## Manuscript Figure Generation
 
-This repository holds scripts to generate all figures in our manuscript.
+This repository holds scripts to generate all figures in our manuscript including caller performance analysis, and gene level coverage requirement analysis.
 
 
     
