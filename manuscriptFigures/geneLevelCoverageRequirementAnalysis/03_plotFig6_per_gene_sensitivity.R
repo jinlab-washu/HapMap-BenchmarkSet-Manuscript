@@ -324,37 +324,23 @@ xmax_hist <- max(predictions$cov_80, na.rm = TRUE)
 
 p_hist_cov80 <- predictions %>%
   select(gene, cov_80) %>%
-  filter(!is.na(cov_80)) %>%
+  filter(!is.na(cov_80), cov_80 > 0) %>%   # log requires >0
   ggplot(aes(x = cov_80)) +
-  geom_histogram(
-    binwidth = 20,
-    boundary = 0,
-    closed = "left",
-    fill = "steelblue"
-  ) +
+  geom_histogram(bins = 50, fill = "steelblue") +
   geom_vline(xintercept = 500, linetype = "dashed") +
+  scale_x_log10(
+    breaks = c(100, 500, 1000, 3000, 5000, 10000, 30000),
+    labels = scales::comma
+  ) +
   labs(
-    title = "Distribution of Coverage Needed for 80% Sensitivity",
-    subtitle = sprintf(
-      "Vertical line at 500×; %.2f%% of genes require >500× (n=%d/%d)",
-      pct_over, n_over, n_total
-    ),
-    x = "Coverage for 80% detection (cov_80, X)",
+    title = "Distribution of Coverage Needed for 80% Sensitivity (log scale)",
+    subtitle = sprintf("%.2f%% of genes require >500×", pct_over),
+    x = "Coverage (log scale)",
     y = "Gene count"
   ) +
   theme_minimal(base_size = 12)
 
-if (is.finite(xmax_hist) && xmax_hist > 51000) {
-  p_hist_cov80 <- p_hist_cov80 +
-    scale_x_break(c(2000, 32500)) +
-    scale_x_break(c(32700, 51600)) +
-    scale_x_continuous(expand = expansion(mult = c(0, 0.02)))
-} else {
-  p_hist_cov80 <- p_hist_cov80 +
-    coord_cartesian(xlim = c(0, xmax_hist)) +
-    scale_x_continuous(expand = expansion(mult = c(0, 0.02)))
-}
+p_hist_cov80
 
-print(p_hist_cov80)
 ggsave(outfile_hist_cov80, p_hist_cov80, width = 6.5, height = 4.5, dpi = 300)
 message("Wrote SVG file: ", outfile_hist_cov80)
