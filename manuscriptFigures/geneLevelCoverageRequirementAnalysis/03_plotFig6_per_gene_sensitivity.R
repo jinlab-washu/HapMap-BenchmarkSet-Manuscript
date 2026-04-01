@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 #################################################################
-# Fit per-gene sensitivity vs coverage curves and generate Figure 6 panels and Supplementary table 6-7.
+# Fit per-gene sensitivity vs coverage curves and generate Figure 6 panels and Supplementary table 7-8.
 #
 # This script:
 #   1. Fits an exponential saturation model per gene:
