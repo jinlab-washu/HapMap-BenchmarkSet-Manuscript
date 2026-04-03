@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+#set -euo pipefail
 
 # Run Truvari bench for SV call sets against truth sets.
 #
@@ -23,7 +23,7 @@ VERSION="${VERSION:-v1.1.0}"
 TRUTH_DIR="${TRUTH_DIR:-/storage2/fs1/epigenome/Active/shared_smaht/TEST_RUN_FOLDER/TrueMutSet/nahyun_tmp/caller_evaluation/data/truth_set/reheader}"
 QUERY_BASE_DIR="${QUERY_BASE_DIR:-/storage2/fs1/epigenome/Active/shared_smaht/TEST_RUN_FOLDER/TrueMutSet/nahyun_tmp/caller_evaluation/data/call_set_tumor_normal_revision}"
 QUERY_DIR="${QUERY_DIR:-${QUERY_BASE_DIR}/reheader}"
-OUT_DIR="${OUT_DIR:-/storage2/fs1/epigenome/Active/shared_smaht/TEST_RUN_FOLDER/TrueMutSet/nahyun_tmp/caller_evaluation}"
+OUT_DIR="${OUT_DIR:-/storage2/fs1/epigenome/Active/shared_smaht/TEST_RUN_FOLDER/TrueMutSet/nahyun_tmp/caller_evaluation/sv}"
 
 TRUTH_HG38="${TRUTH_HG38:-/storage2/fs1/epigenome/Active/shared_smaht/TEST_RUN_FOLDER/TrueMutSet/final_submission/truth_set/v.1.1.0/GRCh38/SMHTHAPMAP6_GRCh38_${VERSION}_somatic_benchmark_svs.vcf.gz}"
 TRUTH_CHM13="${TRUTH_CHM13:-/storage2/fs1/epigenome/Active/shared_smaht/TEST_RUN_FOLDER/TrueMutSet/final_submission/truth_set/v.1.1.0/CHM13/SMHTHAPMAP6_CHM13_${VERSION}_somatic_benchmark_svs.vcf.gz}"
@@ -38,15 +38,16 @@ mkdir -p "${OUT_DIR}"
 cd "${OUT_DIR}"
 
 declare -A sv_files=(
-    [pbsv_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_pbsv_CHM13_svs.vcf.gz"
-    [pbsv_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_pbsv_GRCh38_svs.vcf.gz"
+    #[pbsv_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_pbsv_CHM13_svs.vcf.gz"
+    #[pbsv_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_pbsv_GRCh38_svs.vcf.gz"
     [savana_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_savana_CHM13_svs.vcf.gz"
     [savana_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_savana_GRCh38_svs.vcf.gz"
-    [severus_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_severus_CHM13_svs.vcf.gz"
-    [severus_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_severus_GRCh38_svs.vcf.gz"
+    #[severus_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_severus_CHM13_svs.vcf.gz"
+    #[severus_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_severus_GRCh38_svs.vcf.gz"
     [sniffles_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_sniffles_CHM13_svs.vcf.gz"
     [sniffles_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_sniffles_GRCh38_svs.vcf.gz"
     [svision_CHM13]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_svision_CHM13_svs.vcf.gz"
+    [svision_GRCh38]="${QUERY_BASE_DIR}/SV/HapMap_Mixture_svision_GRCh38_svs.vcf.gz"
 )
 
 for variant in "${!sv_files[@]}"; do
@@ -67,28 +68,30 @@ for variant in "${!sv_files[@]}"; do
     # Most current SV query VCFs are single-sample; use the first/only sample name.
     # Truvari can compare selected samples when names differ across truth/query.
     if [[ "${variant}" == pbsv_* ]]; then
-        if [[ "${variant}" == *_CHM13 ]]; then
-            sample_name="HapMap_Mixture_merged"
-        else
-            sample_name="HapMap_Mixture_merged"
-        fi
-    elif [[ "${variant}" == savana_* ]]; then
-        sample_name="TUMOUR"
-    elif [[ "${variant}" == severus_* ]]; then
-        if [[ "${variant}" == *_CHM13 ]]; then
-            sample_name="HapMap_Mixture_long_chm13"
-        else
-            sample_name="HapMap_Mixture_long_hg38"
-        fi
+        sample_name="HapMap_Mixture_merged"
+
     elif [[ "${variant}" == sniffles_* ]]; then
-        if [[ "${variant}" == *_CHM13 ]]; then
-            sample_name="CHM13_Tumor"
-        else
-            sample_name="HG38_Tumor"
-        fi
-    elif [[ "${variant}" == svision_* ]]; then
-        # first sample is the tumor sample in the current svision CHM13 VCF
+        sample_name="SAMPLE"
+
+    elif [[ "${variant}" == severus_CHM13 ]]; then
+        sample_name="SMHTHAPMAP6-X-X-NN-B001-bcm-broad-washu-pbmm2_1.13.0_GRCh38.aligned.sorted.merged.reheader.realigned_chm13_dac"
+
+    elif [[ "${variant}" == severus_GRCh38 ]]; then
+        sample_name="SMHTHAPMAP6-X-X-NN-B001-bcm-broad-washu-pbmm2_1.13.0_GRCh38.aligned.sorted.merged"
+
+    elif [[ "${variant}" == savana_CHM13 ]]; then
+        sample_name="SMHTHAPMAP6-X-X-NN-B001-bcm-broad-washu-pbmm2_1.13.0_GRCh38.aligned.sorted.merged.reheader.realigned_chm13_dac"
+
+    elif [[ "${variant}" == savana_GRCh38 ]]; then
+        sample_name="SMHTHAPMAP6-X-X-NN-B001-bcm-broad-washu-pbmm2_1.13.0_GRCh38.aligned.sorted.merged"
+
+    elif [[ "${variant}" == svision_CHM13 ]]; then
+        # tumor sample = first sample in the VCF
+        sample_name="SMHTHAPMAP6-X-X-NN-B001-bcm-broad-washu-pbmm2_1.13.0_GRCh38.aligned.sorted.merged.reheader.realigned_chm13_dac.bam"
+    elif [[ "${variant}" == svision_GRCh38 ]]; then
+        # tumor sample = first sample in the VCF
         sample_name="SMHTHAPMAP6-X-X-NN-B001-bcm-broad-washu-pbmm2_1.13.0_GRCh38.aligned.sorted.merged.bam"
+
     else
         echo "Unsupported variant key: ${variant}" >&2
         exit 1
@@ -112,8 +115,9 @@ for variant in "${!sv_files[@]}"; do
         --includebed "${reliable}" \
         -s 50 \
         -S 50 \
+        --typeignore \
+        --pctseq 0 \
         --pick multi \
-        --pctseq 0.7 \
         --pctsize 0.7 \
         -o "SV_${variant}_total"
 
@@ -128,8 +132,9 @@ for variant in "${!sv_files[@]}"; do
             --includebed "${reliable}" \
             -s 50 \
             -S 50 \
+            --typeignore \
+            --pctseq 0 \
             --pick multi \
-            --pctseq 0.7 \
             --pctsize 0.7 \
             -o "SV_${variant}_af_${id}_sensitivity"
     done
@@ -145,8 +150,9 @@ for variant in "${!sv_files[@]}"; do
             --includebed "${reliable}" \
             -s 50 \
             -S 50 \
+            --typeignore \
+            --pctseq 0 \
             --pick multi \
-            --pctseq 0.7 \
             --pctsize 0.7 \
             -o "SV_${variant}_af_${id}_precision"
     done
