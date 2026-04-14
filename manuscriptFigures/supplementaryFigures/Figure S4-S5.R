@@ -6,7 +6,7 @@ install.packages("patchwork")
 library(patchwork)
 library(VariantAnnotation)
 
-########################################## Ext 2A3A ##########################################
+########################################## Fig 4A5A ##########################################
 
 chromosome_order <- c(paste0("chr", 1:22), "chrX", "chrY")
 variant_df$Chromosome <- factor(variant_df$Chromosome, levels = chromosome_order)
@@ -30,7 +30,7 @@ plot_all_variants <- ggplot(variant_df, aes(x = Chromosome, y = Variant_Count, f
         legend.title = element_blank(),
         panel.grid = element_blank())
 
-########################################## Ext 2B3B ##########################################
+########################################## Fig 4B5B ##########################################
 
 mutation_type_order <- unique(melted_df$Mutation_Type)
 melted_df$Mutation_Type <- factor(melted_df$Mutation_Type, levels = mutation_type_order)
@@ -52,11 +52,11 @@ ggplot(melted_df, aes(x = Mutation_Type, y = Count, fill = Tissue_type)) +
         panel.background = element_rect(fill = "transparent", color = NA),
         panel.grid = element_blank()
 
-########################################## Ext 2C3C ##########################################
+########################################## Fig 4C5C ##########################################
 
 
 
-########################################## Ext 2D3D ##########################################
+########################################## Fig 4D5D ##########################################
 
 all_variants_df <- bind_rows(
   snvs_df %>% mutate(type = "SNV"),
@@ -94,7 +94,7 @@ stacked_plot <- ggplot(aggregated_vaf, aes(x = VAF, y = Total_Count, fill = type
     panel.background = element_rect(fill = "transparent", color = NA),
     panel.grid = element_blank()  # Remove grid lines
   )
-########################################## Ext 2E3E ##########################################
+########################################## Fig 4E5E ##########################################
 
 # Specify the VCF file path
 vcf_file <- "{path to sv vcf}"
@@ -186,7 +186,7 @@ ggplot(bin_summary, aes(x = Midpoint, y = Count, color = Type, group = Type)) +
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey50")
         
-########################################## Ext 1F2F ##########################################
+########################################## Fig 4F5F ##########################################
 read_vcf_extract_repeats <- function(vcf_path){
   vcf <- read.table(vcf_path, comment.char = "#", header = FALSE, sep = "\t", stringsAsFactors = FALSE)
   colnames(vcf) <- c("CHROM","POS","ID","REF","ALT","QUAL","FILTER","INFO","FORMAT","Sample")
@@ -261,7 +261,7 @@ final_plot <- patchwork::wrap_plots(alu_plot, l1_plot, sva_plot,guides = "collec
 print(final_plot)
 
 
-########################################## Ext 1G2G ##########################################
+########################################## Fig 4G5G ##########################################
 #install.packages("UpSetR")
 library(UpSetR)
 #reference: https://www.youtube.com/watch?v=n9MRCZxJOfk&t=333s
@@ -309,7 +309,7 @@ upset(fromList(x), order.by = "freq",
       sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
 dev.off()
 
-########################################## Ext 1H2H ##########################################
+########################################## Fig 4H5H ##########################################
 library(UpSetR)
 data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_indels_filtered.txt", header = TRUE, sep = "\t")
 dt = data
@@ -355,7 +355,7 @@ upset(fromList(x), order.by = "freq",
       sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
 dev.off()
 
-########################################## Ext 1I2I ##########################################
+########################################## Fig 4I5I ##########################################
 library(UpSetR)
 data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_svs_filtered.txt", header = TRUE, sep = "\t")
 dt = data
@@ -401,7 +401,7 @@ upset(fromList(x), order.by = "freq",
       sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
 dev.off()
 
-########################################## Ext 1J2J ##########################################
+########################################## Fig 4J5J ##########################################
 library(UpSetR)
 data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_svs_mei_filtered.txt", header = TRUE, sep = "\t")
 dt = data
