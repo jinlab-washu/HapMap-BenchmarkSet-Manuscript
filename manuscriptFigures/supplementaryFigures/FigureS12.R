@@ -1,5 +1,3 @@
-library(jsonlite)
-library(purrr)
 library(dplyr)
 library(ggplot2)
 library(patchwork)
