@@ -190,7 +190,7 @@ final_combined_plot <- ggarrange( sensitivity_plot, precision_plot,
 
 # Display the plot
 print(final_combined_plot)
-############################################ Fig4B ####################################################
+############################################# Fig4B ####################################################
 library(jsonlite)
 library(dplyr)
 library(ggplot2)
