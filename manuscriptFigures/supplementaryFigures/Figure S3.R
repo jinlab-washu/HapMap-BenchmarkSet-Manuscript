@@ -4,7 +4,7 @@ install.packages("svglite")
 library(dplyr)
 ################Reliable and Unreliable Counts per Sample#########
 # Read the data from the text file
-data <- read.table("/Users/nanakong/Library/CloudStorage/OneDrive-WashingtonUniversityinSt.Louis/Washu/Rotation/PeterJin/Data/Rscript/SMaHT_truthset/Code_for_figures/data/reli_unreli_length_final.txt",  header = FALSE, col.names = c("Sample", "Type", "Count"))
+data <- read.table("reli_unreli_length_final.txt",  header = FALSE, col.names = c("Sample", "Type", "Count"))
 
 # Transform, reorder, and rename the data
 data <- data %>%
@@ -34,5 +34,3 @@ plot <- ggplot(data, aes(x = Sample, y = Count, fill = Type)) +
         legend.text = element_text(size = 10)) # Increase legend text size
 
 print(plot)
-# Save the plot if needed
-ggsave("/Users/nanakong/Library/CloudStorage/Box-Box/Genetics_Writing_Group/SMaHT_Truth_Set/Figures/Supplementary/Sup4_source/A_reliable_region_plot.svg")
