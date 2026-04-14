@@ -262,28 +262,187 @@ print(final_plot)
 
 
 ########################################## Ext 1G2G ##########################################
+#install.packages("UpSetR")
+library(UpSetR)
+#reference: https://www.youtube.com/watch?v=n9MRCZxJOfk&t=333s
+data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_snvs_filtered.txt", header = TRUE, sep = "\t")
+dt = data
+        
+#make list
+x = list(
+  HG002_M = dt[grep("HG002_M", dt[,2]),1],
+  HG002_P = dt[grep("HG002_P", dt[,2]),1],
+  HG00438_M = dt[grep("HG00438_M", dt[,2]),1],
+  HG00438_P = dt[grep("HG00438_P", dt[,2]),1],
+  HG005_M = dt[grep("HG005_M", dt[,2]),1],
+  HG005_P = dt[grep("HG005_P", dt[,2]),1],
+  HG02257_M = dt[grep("HG02257_M", dt[,2]),1],
+  HG02257_P = dt[grep("HG02257_P", dt[,2]),1],
+  HG02486_M = dt[grep("HG02486_M", dt[,2]),1],
+  HG02486_P = dt[grep("HG02486_P", dt[,2]),1],
+  HG02622_M = dt[grep("HG02622_M", dt[,2]),1],
+  HG02622_P = dt[grep("HG02622_P", dt[,2]),1]
+)
+        
+# Merge _M and _P values for each sample
+y = list(
+  HG002 = c(x$HG002_M, x$HG002_P),
+  HG00438 = c(x$HG00438_M, x$HG00438_P),
+  HG005 = c(x$HG005_M, x$HG005_P),
+  HG02257 = c(x$HG02257_M, x$HG02257_P),
+  HG02486 = c(x$HG02486_M, x$HG02486_P),
+  HG02622 = c(x$HG02622_M, x$HG02622_P)
+)
+        
+#draw plot
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+upset(fromList(y), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002", "HG00438", "HG005", "HG02257", "HG02486", "HG02622"))
 
-
-
-
-
-
+#save figure
+svg("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_snvs_filtered.svg", width=16, height=6)  # Open a new SVG device
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+dev.off()
 
 ########################################## Ext 1H2H ##########################################
+library(UpSetR)
+data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_indels_filtered.txt", header = TRUE, sep = "\t")
+dt = data
+        
+#make list
+x = list(
+  HG002_M = dt[grep("HG002_M", dt[,2]),1],
+  HG002_P = dt[grep("HG002_P", dt[,2]),1],
+  HG00438_M = dt[grep("HG00438_M", dt[,2]),1],
+  HG00438_P = dt[grep("HG00438_P", dt[,2]),1],
+  HG005_M = dt[grep("HG005_M", dt[,2]),1],
+  HG005_P = dt[grep("HG005_P", dt[,2]),1],
+  HG02257_M = dt[grep("HG02257_M", dt[,2]),1],
+  HG02257_P = dt[grep("HG02257_P", dt[,2]),1],
+  HG02486_M = dt[grep("HG02486_M", dt[,2]),1],
+  HG02486_P = dt[grep("HG02486_P", dt[,2]),1],
+  HG02622_M = dt[grep("HG02622_M", dt[,2]),1],
+  HG02622_P = dt[grep("HG02622_P", dt[,2]),1]
+)
+        
+# Merge _M and _P values for each sample
+y = list(
+  HG002 = c(x$HG002_M, x$HG002_P),
+  HG00438 = c(x$HG00438_M, x$HG00438_P),
+  HG005 = c(x$HG005_M, x$HG005_P),
+  HG02257 = c(x$HG02257_M, x$HG02257_P),
+  HG02486 = c(x$HG02486_M, x$HG02486_P),
+  HG02622 = c(x$HG02622_M, x$HG02622_P)
+)
+        
+#draw plot
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+upset(fromList(y), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002", "HG00438", "HG005", "HG02257", "HG02486", "HG02622"))
 
-
-
-
-
-
+#save figure
+svg("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_indels_filtered.svg", width=16, height=6)  # Open a new SVG device
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+dev.off()
 
 ########################################## Ext 1I2I ##########################################
+library(UpSetR)
+data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_svs_filtered.txt", header = TRUE, sep = "\t")
+dt = data
+        
+#make list
+x = list(
+  HG002_M = dt[grep("HG002_M", dt[,2]),1],
+  HG002_P = dt[grep("HG002_P", dt[,2]),1],
+  HG00438_M = dt[grep("HG00438_M", dt[,2]),1],
+  HG00438_P = dt[grep("HG00438_P", dt[,2]),1],
+  HG005_M = dt[grep("HG005_M", dt[,2]),1],
+  HG005_P = dt[grep("HG005_P", dt[,2]),1],
+  HG02257_M = dt[grep("HG02257_M", dt[,2]),1],
+  HG02257_P = dt[grep("HG02257_P", dt[,2]),1],
+  HG02486_M = dt[grep("HG02486_M", dt[,2]),1],
+  HG02486_P = dt[grep("HG02486_P", dt[,2]),1],
+  HG02622_M = dt[grep("HG02622_M", dt[,2]),1],
+  HG02622_P = dt[grep("HG02622_P", dt[,2]),1]
+)
+        
+# Merge _M and _P values for each sample
+y = list(
+  HG002 = c(x$HG002_M, x$HG002_P),
+  HG00438 = c(x$HG00438_M, x$HG00438_P),
+  HG005 = c(x$HG005_M, x$HG005_P),
+  HG02257 = c(x$HG02257_M, x$HG02257_P),
+  HG02486 = c(x$HG02486_M, x$HG02486_P),
+  HG02622 = c(x$HG02622_M, x$HG02622_P)
+)
+        
+#draw plot
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+upset(fromList(y), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002", "HG00438", "HG005", "HG02257", "HG02486", "HG02622"))
 
-
-
-
-
-
-
+#save figure
+svg("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_svs_filtered.svg", width=16, height=6)  # Open a new SVG device
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+dev.off()
 
 ########################################## Ext 1J2J ##########################################
+library(UpSetR)
+data = read.delim("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_svs_mei_filtered.txt", header = TRUE, sep = "\t")
+dt = data
+        
+#make list
+x = list(
+  HG002_M = dt[grep("HG002_M", dt[,2]),1],
+  HG002_P = dt[grep("HG002_P", dt[,2]),1],
+  HG00438_M = dt[grep("HG00438_M", dt[,2]),1],
+  HG00438_P = dt[grep("HG00438_P", dt[,2]),1],
+  HG005_M = dt[grep("HG005_M", dt[,2]),1],
+  HG005_P = dt[grep("HG005_P", dt[,2]),1],
+  HG02257_M = dt[grep("HG02257_M", dt[,2]),1],
+  HG02257_P = dt[grep("HG02257_P", dt[,2]),1],
+  HG02486_M = dt[grep("HG02486_M", dt[,2]),1],
+  HG02486_P = dt[grep("HG02486_P", dt[,2]),1],
+  HG02622_M = dt[grep("HG02622_M", dt[,2]),1],
+  HG02622_P = dt[grep("HG02622_P", dt[,2]),1]
+)
+        
+# Merge _M and _P values for each sample
+y = list(
+  HG002 = c(x$HG002_M, x$HG002_P),
+  HG00438 = c(x$HG00438_M, x$HG00438_P),
+  HG005 = c(x$HG005_M, x$HG005_P),
+  HG02257 = c(x$HG02257_M, x$HG02257_P),
+  HG02486 = c(x$HG02486_M, x$HG02486_P),
+  HG02622 = c(x$HG02622_M, x$HG02622_P)
+)
+        
+#draw plot
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+upset(fromList(y), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002", "HG00438", "HG005", "HG02257", "HG02486", "HG02622"))
+
+#save figure
+svg("SMHTHAPMAP6_GRCh38_v1.2_somatic_benchmark_svs_mei_filtered.svg", width=16, height=6)  # Open a new SVG device
+upset(fromList(x), order.by = "freq",
+      mainbar.y.label = "Counts", sets.x.label = "Sample",
+      sets= c("HG002_M", "HG002_P", "HG00438_M", "HG00438_P", "HG005_M", "HG005_P", "HG02257_M", "HG02257_P", "HG02486_M", "HG02486_P", "HG02622_M", "HG02622_P"))
+dev.off()
